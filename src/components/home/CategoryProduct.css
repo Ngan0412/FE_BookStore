@@ -1,0 +1,73 @@
+/* banner */
+.image-banner img {
+  position: absolute;
+  top: 70px;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.btn {
+  width: 200px;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 10px;
+  border: 2px solid #5f9c3f;
+  color: #5f9c3f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0;
+  cursor: pointer;
+}
+/* Catelogy */
+.main-category {
+  position: absolute;
+  top: 400px;
+  width: 100%;
+  min-height: 250px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  background-color: #f0f0f0;
+}
+.main-category__content {
+  background-color: #fff;
+  max-width: 98%;
+  max-height: 280px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 10px 10px 5px 5px rgba(0, 0, 0, 0.03);
+}
+
+.main-category__title {
+  display: flex;
+  align-items: start;
+  margin: 5px 5px;
+  color: black;
+}
+.main-category__item {
+  display: flex;
+  padding: 10px;
+}
+.title {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.icon-child {
+  color: rgb(95, 156, 63);
+  padding-right: 5px;
+}
+.book {
+  width: 120px;
+}
+.title-book {
+  color: #8c8f90;
+  font-size: 15px;
+  margin: 5px 5px;
+}
+.title-book:hover {
+  color: rgb(95, 156, 63);
+  cursor: pointer;
+}

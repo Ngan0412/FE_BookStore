@@ -1,11 +1,21 @@
 import React from "react";
-import Header from "./components/Header";
+import "./components/Reset.css";
 import "./App.css";
+import Header from "./components/common/Header.jsx";
+import Footer from "./components/common/Footer.jsx";
+import CategorySection from "./components/home/CategoryProduct.jsx";
+import BookList from "./components/home/ProductGrid.jsx";
+import BookSuggestions from "./components/common/SuggestProductGrid.jsx";
 
 function App() {
   return (
     <div className="App">
       <Header />
+      <CategorySection />
+      <BookList />
+      <BookSuggestions />
+
+      <Footer />
     </div>
   );
 }
