@@ -1,20 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "../home/CategoryProduct.css";
+import styles from "./CategoryProduct.module.css";
 import axios from "axios";
 import { FaTableCells } from "react-icons/fa6";
 
-// const categories = [
-//   { title: "Sách Ngoại Ngữ", img: "/styles/img/ngoaingu.webp" },
-//   { title: "Sách Giáo Khoa", img: "/styles/img/tamly.webp" },
-//   { title: "Sách Thiếu Nhi", img: "/styles/img/vanhoc.webp" },
-//   { title: "Sách Tâm Lý", img: "/styles/img/tamly.webp" },
-//   { title: "Sách Tâm Lý", img: "/styles/img/tamly.webp" },
-//   { title: "Sách Tâm Lý", img: "/styles/img/tamly.webp" },
-//   { title: "Sách Tâm Lý", img: "/styles/img/tamly.webp" },
-//   { title: "Sách Tâm Lý", img: "/styles/img/tamly.webp" },
-//   { title: "Sách Văn Học", img: "/styles/img/vanhoc.webp" },
-//   { title: "Sách Văn Học", img: "/styles/img/vanhoc.webp" },
-// ];
 const getCategoryImage = (name) => {
   switch (name) {
     case "Truyện tranh":
@@ -66,23 +54,23 @@ const CategorySection = () => {
   return (
     <>
       {/* banner */}
-      <div className="image-banner">
+      <div className={styles.imageBanner}>
         <img src="/styles/img/banner.webp" alt="Khuyến mãi sách" />
       </div>
       {/*  danh mục sản phẩm */}
-      <div className="main-category">
-        <div className="main-category__content">
-          <div className="main-category__title">
-            <div className="icon-child">
+      <div className={styles.booklist}>
+        <div className={styles["main-book"]}>
+          <div className={styles["main-category__title"]}>
+            <div className={styles["icon-child"]}>
               <FaTableCells />
             </div>
-            <div className="title">Danh Mục Sản Phẩm</div>
+            <div className={styles["title"]}>Danh Mục Sản Phẩm</div>
           </div>
 
-          <div className="main-category__item">
+          <div className={styles["main-category__item"]}>
             {categories.map((cat) => (
               <div
-                className="main-category__itemChild"
+                className={styles["main-category__itemChild"]}
                 key={cat.id}
                 onClick={() => handleCategoryClick(cat)}
                 style={{ cursor: "pointer" }}
@@ -90,27 +78,30 @@ const CategorySection = () => {
                 <img
                   src={getCategoryImage(cat.name)}
                   alt={cat.name}
-                  className="book"
+                  className={styles["book"]}
                 />
-                <div className="title-book">{cat.name}</div>
+                <div className={styles["title-book"]}>{cat.name}</div>
               </div>
             ))}
           </div>
         </div>
       </div>
       {selectedCategory && (
-        <div className="listbook">
-          <div className="main-listBook">
-            <div className="main-listBook__content">
-              <div className="listBook__title">
-                <div className="icon-book">📚</div>
+        <div className={styles["listbook"]}>
+          <div className={styles["main-listBook"]}>
+            <div className={styles["main-listBook__content"]}>
+              <div className={styles["listBook__title"]}>
+                <div className={styles["icon-book"]}>📚</div>
                 Sách thuộc thể loại:{" "}
                 <b style={{ marginLeft: "5px" }}>{selectedCategory}</b>
               </div>
-              <div className="main-listBook__item">
+              <div className={styles["main-listBook__item"]}>
                 {books.length > 0 ? (
                   books.map((book) => (
-                    <div key={book.id} className="main-listBook__item__child">
+                    <div
+                      key={book.id}
+                      className={styles["main-listBook__item__child"]}
+                    >
                       <img
                         src={book.image || "/styles/img/default_book.webp"}
                         alt={book.title}
@@ -121,8 +112,12 @@ const CategorySection = () => {
                           marginTop: "10px",
                         }}
                       />
-                      <p className="item__child__title">{book.title}</p>
-                      <p className="price__book__new">{book.price}₫</p>
+                      <p className={styles["item__child__title"]}>
+                        {book.title}
+                      </p>
+                      <p className={styles["price__book__new"]}>
+                        {book.price}₫
+                      </p>
                     </div>
                   ))
                 ) : (

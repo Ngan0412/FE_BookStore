@@ -3,16 +3,12 @@
   color: #333;
   width: 100%;
   font-family: Arial, sans-serif;
-  /* padding: 40px 20px 10px; */
   padding-top: 40px;
   margin-top: 50px;
   border-top: 1px solid #ddd;
-  position: absolute;
-  top: 2700px;
+  z-index: 999;
 }
-main {
-  flex: 1; /* phần nội dung sẽ chiếm hết không gian còn lại */
-}
+
 .footer-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

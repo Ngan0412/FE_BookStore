@@ -1,0 +1,261 @@
+/* detail */
+/* .detail {
+  position: relative;
+  top: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #f0f0f0;
+}
+.main-detail {
+  width: 96%;
+  background-color: #f0f0f0;
+  padding: 20px;
+} */
+
+.booklist {
+  width: 100%;
+  min-height: 250px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  margin-top: 50px;
+  background-color: #f0f0f0;
+}
+
+.main-book {
+  background-color: #fff;
+  max-width: 98%;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 10px 10px 5px 5px rgba(0, 0, 0, 0.03);
+}
+.main-detail__item {
+  /* background-color: #5ec27a; */
+  /* margin-top: 70px; */
+
+  display: flex;
+}
+.main-detail__item__left {
+  width: 35%;
+  border-radius: 15px;
+  max-height: 1000px;
+  background-color: #fff;
+  box-sizing: border-box;
+  position: sticky;
+  top: 90px; /* Độ cao offset nếu có header */
+  align-self: flex-start;
+  height: fit-content;
+}
+
+.main-detail__item__right {
+  width: 65%;
+  display: flex;
+  margin-left: 15px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+}
+/* title one */
+.main-detail__item__right__title {
+  width: 96%;
+  /* height: 200px; */
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 15px;
+  margin-bottom: 5px;
+}
+.common p {
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+.right__title {
+  font-size: 30px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+.daban {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.common-bold {
+  font-weight: 600;
+  margin-right: 45px;
+  margin-left: 10px;
+}
+.price__book {
+  font-size: 30px;
+}
+.promotion__book {
+  font-size: 18px;
+  width: 50px;
+}
+.star {
+  color: #e3e5e5;
+  margin-left: 15px;
+  /* display: flex; */
+  justify-self: center;
+  align-items: center;
+}
+.text_value {
+  color: #fcc939;
+  font-size: 17px;
+  margin-left: 15px;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+}
+.luotBan {
+  margin-left: 5px;
+  margin-left: 15px;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+}
+.common {
+  display: flex;
+  gap: 50px;
+  /* justify-content: center; */
+}
+/* infomation detail */
+.main-detail__item__right__detail {
+  width: 96%;
+  padding: 10px;
+  border-radius: 15px;
+  background-color: #fff;
+  margin: 10px 0;
+}
+.main-detail__item__right__desc {
+  width: 100%;
+}
+.product-info {
+  width: 100% !important;
+  font-family: Arial, sans-serif;
+  width: 500px;
+  line-height: 1.6;
+}
+
+.product-info h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.info-row {
+  width: 100%;
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.label {
+  width: 150px;
+  font-weight: bold;
+  color: #555;
+}
+
+a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/*desc  */
+.container {
+  width: 96%;
+  padding: 10px;
+  border-radius: 15px;
+  background-color: #fff;
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #0d0d0d;
+  margin-bottom: 10px;
+}
+
+.main-title {
+  margin-top: 50px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 20px;
+}
+
+.intro {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.feature {
+  margin-top: 20px;
+}
+
+.feature h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.feature p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+strong {
+  font-weight: bold;
+}
+
+/*  */
+.book {
+  width: 300px;
+  margin-left: 50px;
+}
+.btn-detail {
+  display: flex;
+}
+.btn__muangay {
+  background-color: #5f9c3f !important;
+  color: #fff !important;
+  margin-left: 20px !important;
+}
+.icon__giohang {
+  color: #5f9c3f !important;
+  margin-right: 5px;
+}
+.title {
+  font-size: 18px;
+  font-weight: bold;
+}
+.common p {
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+.right__title {
+  font-size: 30px;
+  font-weight: bold;
+  line-height: 1.4;
+}

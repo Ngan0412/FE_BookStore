@@ -1,16 +1,33 @@
-/* list book */
-
+/* sản phẩm liên quan */
+.listbook {
+  width: 100%;
+  min-height: 1250px;
+  background-color: #f0f0f0;
+  display: flex;
+  margin-top: 50px;
+  justify-content: center;
+  align-items: center;
+}
 .main-listBook__content {
   width: 100%;
 }
-
+.main-listBook {
+  display: flex;
+  width: 96%;
+  max-height: 1000px;
+  border-radius: 5px;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+}
 .main-listBook__item {
   margin: 10px 10px;
   border-radius: 1px;
   display: grid;
-  grid-template-columns: repeat(5, 240px);
-  grid-template-rows: repeat(2, 295px);
+  grid-template-columns: repeat(5, 235px);
+  grid-template-rows: repeat(1, 340px);
   background-color: #f0f0f0;
+  line-height: 1;
   margin-top: 10px;
 }
 .main-listBook__item__child {
@@ -31,16 +48,16 @@
 }
 .price__book__new {
   display: flex;
-  margin: 2px 0;
   align-items: center;
   color: #c92127;
   font-size: 17px;
+  line-height: 0.2;
   font-weight: bold;
 }
 .price__book__old {
-  margin: 2px 0;
   color: #8c8f90;
   font-size: 15px;
+  line-height: 0.2;
   text-decoration: line-through;
 }
 .promotion {

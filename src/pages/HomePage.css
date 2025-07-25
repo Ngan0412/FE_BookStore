@@ -1,0 +1,8 @@
+#root {
+  width: 100%;
+}
+.HomePage {
+  display: flex;
+  flex-direction: column;
+  margin-top: 60px;
+}

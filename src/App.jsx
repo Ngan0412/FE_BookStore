@@ -1,23 +1,27 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./components/Reset.css";
 import "./App.css";
 import Header from "./components/common/Header.jsx";
 import Footer from "./components/common/Footer.jsx";
-import CategorySection from "./components/home/CategoryProduct.jsx";
-import BookList from "./components/home/ProductGrid.jsx";
-import BookSuggestions from "./components/common/SuggestProductGrid.jsx";
-import ChatBot from "./components/home/ChatBot.jsx";
+import HomePage from "./pages/HomePage.jsx";
+import BookDetailPage from "./pages/bookDetailPage.jsx";
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <CategorySection />
-      <BookList />
-      <BookSuggestions />
-      <ChatBot/>
-      <Footer />
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/book/:id" element={<BookDetailPage />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </Router>
   );
 }
+
 export default App;

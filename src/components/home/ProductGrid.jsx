@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaBook } from "react-icons/fa";
 import "./ProductGrid.css";
+import { Link } from "react-router-dom";
 
 const BookList = () => {
   const [books, setBooks] = useState([]);
@@ -28,8 +29,8 @@ const BookList = () => {
   if (loading) return <p style={{ padding: "20px" }}> Đang tải dữ liệu ...</p>;
 
   return (
-    <div className="listbook">
-      <div className="main-listBook">
+    <div className="booklist">
+      <div className="main-book">
         <div className="main-listBook__content">
           <div className="listBook__title">
             <div className="icon-book">
@@ -43,7 +44,11 @@ const BookList = () => {
 
         <div className="main-listBook__item">
           {visibleBooks.map((book, index) => (
-            <div className="main-listBook__item__child" key={index}>
+            <Link
+              to={`/book/${book.id}`}
+              key={index}
+              className="main-listBook__item__child"
+            >
               <img src={book.image} alt={book.title} className="listBook" />
               <div className="item__child__title">
                 <div className="title__book">{book.title}</div>
@@ -58,7 +63,7 @@ const BookList = () => {
                   <p className="sold">{book.sold}</p>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
         {!showAll && (

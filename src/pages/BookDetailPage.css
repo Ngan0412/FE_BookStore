@@ -1,0 +1,9 @@
+#root {
+  /* max-width: 1080px; */
+  width: 100%;
+}
+.BookDetailPage {
+  display: flex;
+  flex-direction: column;
+  margin-top: 60px;
+}

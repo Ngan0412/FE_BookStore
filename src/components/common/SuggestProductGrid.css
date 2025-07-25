@@ -1,37 +1,38 @@
-/* .bookSuggestions {
+/* sugestion */
+
+.booklist {
   width: 100%;
-  height: 900px;
-  background-color: #f0f0f0;
+  min-height: 250px;
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
+  padding-top: 20px;
+
+  background-color: #f0f0f0;
 }
-.main-bookSuggestions {
-  position: absolute;
-  top: 1600px;
+
+.mainBook {
+  background-color: #fff;
+  max-width: 98%;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 96%;
-  border-radius: 10px;
-  max-height: 900px;
-  background-color: #fff;
-  box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.03);
-} */
+  justify-content: center;
+  box-shadow: 10px 10px 5px 5px rgba(0, 0, 0, 0.03);
+}
 .main-bookSuggestions__item {
   margin: 10px 10px;
   border-radius: 1px;
   display: grid;
   grid-template-columns: repeat(5, 240px);
-  grid-template-rows: repeat(2, 295px);
+  grid-template-rows: repeat(2, 325px);
   background-color: #f0f0f0;
   margin-top: 10px;
 }
-
 .item__child__title {
   font-size: 16px;
   margin: 5px 5px;
-  color: black;
 }
 .main-bookSuggestions__item__child {
   background-color: #fff;
@@ -116,13 +117,22 @@
   font-weight: bold;
   font-size: 32px;
 }
+.right__title {
+  font-size: 28px;
+  font-weight: 540;
+}
+.promotion__book {
+  width: 45px;
+  height: 20px;
+  font-size: 18px;
+}
 .btn {
   width: 200px;
   height: 40px;
   background-color: #fff;
   border-radius: 10px;
-  border: 2px solid #c92127;
-  color: #c92127;
+  border: 2px solid #5f9c3f;
+  color: #5f9c3f;
   display: flex;
   justify-content: center;
   align-items: center;

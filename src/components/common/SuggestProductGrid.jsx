@@ -19,8 +19,8 @@ const BookList = () => {
   }, []);
   if (loading) return <p style={{ padding: "20px" }}> Đang tải dữ liệu ...</p>;
   return (
-    <div className="listbook">
-      <div className="main-listBook">
+    <div className="booklist">
+      <div className="main-book">
         <div className="main-bookSuggestions__content">
           <div className="bookSuggestions__title">
             <div className="title-sugestion">
