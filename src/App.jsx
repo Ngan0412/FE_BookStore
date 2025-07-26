@@ -6,6 +6,7 @@ import Header from "./components/common/Header.jsx";
 import Footer from "./components/common/Footer.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import BookDetailPage from "./pages/bookDetailPage.jsx";
+import ProductSearchPage from "./pages/ProductSearchPage.jsx";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <main className="main-content">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/search" element={<ProductSearchPage />} />
             <Route path="/book/:id" element={<BookDetailPage />} />
           </Routes>
         </main>

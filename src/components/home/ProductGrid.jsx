@@ -60,7 +60,7 @@ const BookList = () => {
                   <div className="price__book__old">
                     <p className="price">{book.price}</p>
                   </div>
-                  <p className="sold">{book.sold}</p>
+                  <p className="sold">{book.price}</p>
                 </div>
               </div>
             </Link>
