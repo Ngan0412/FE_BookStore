@@ -12,8 +12,22 @@ const ProductSearchPage = () => {
   const keyword = query.get("q") || "";
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   // Gọi API khi load component
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get("https://localhost:7226/api/Category");
+        setCategories(res.data);
+      } catch (error) {
+        console.error("Lỗi khi lấy danh mục:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
   useEffect(() => {
     const fetchBooks = async () => {
       try {
@@ -21,11 +35,18 @@ const ProductSearchPage = () => {
         const allBooks = res.data;
         console.log("📦 Dữ liệu trả về:", allBooks);
 
-        const filtered = keyword
-          ? allBooks.filter((book) =>
-              book.title.toLowerCase().includes(keyword.toLowerCase())
-            )
-          : allBooks;
+        const filtered = allBooks.filter((book) => {
+          const matchKeyword = keyword
+            ? book.title.toLowerCase().includes(keyword.toLowerCase())
+            : true;
+
+          const matchCategory =
+            selectedCategories.length > 0
+              ? selectedCategories.includes(book.categoryId)
+              : true;
+
+          return matchKeyword && matchCategory;
+        });
 
         setBooks(filtered);
       } catch (error) {
@@ -36,9 +57,17 @@ const ProductSearchPage = () => {
     };
 
     fetchBooks();
-  }, [keyword]);
+  }, [keyword, selectedCategories]);
 
   const baseUrl = "http://localhost:7226";
+  // Hàm xử lý ảnh
+  const resolveImageUrl = (imagePath) => {
+    if (!imagePath) return "/styles/img/tamly.webp"; // Ảnh mặc định nếu không có ảnh
+    if (imagePath.startsWith("http")) return imagePath; // Nếu ảnh là URL đầy đủ thì dùng luôn
+    return `${baseUrl}${
+      imagePath.startsWith("/") ? imagePath : "/" + imagePath
+    }`; // Ghép baseUrl với ảnh
+  };
 
   return (
     <div className={styles["main-content"]}>
@@ -51,18 +80,24 @@ const ProductSearchPage = () => {
 
           <div className={styles["text_title__searchLeft"]}>
             <div className={styles["title-search"]}>DANH MỤC SÁCH</div>
-            <div className={styles["title-book"]}>
-              <input type="checkbox" defaultChecked />
-              <span className={styles["checkmark"]}></span> Sách Ngoại Ngữ
-            </div>
-            <div className={styles["title-book"]}>
-              <input type="checkbox" defaultChecked />
-              <span className={styles["checkmark"]}></span> Sách Thiếu Nhi
-            </div>
-            <div className={styles["title-book"]}>
-              <input type="checkbox" defaultChecked />
-              <span className={styles["checkmark"]}></span> Sách Tâm Lý
-            </div>
+            {categories.map((category) => (
+              <div key={category.id} className={styles["title-book"]}>
+                <input
+                  type="checkbox"
+                  checked={selectedCategories.includes(category.id)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedCategories((prev) => [...prev, category.id]);
+                    } else {
+                      setSelectedCategories((prev) =>
+                        prev.filter((id) => id !== category.id)
+                      );
+                    }
+                  }}
+                />
+                <span className={styles["checkmark"]}></span> {category.name}
+              </div>
+            ))}
           </div>
 
           <div className={styles["text_title__searchLeft"]}>
@@ -158,18 +193,11 @@ const ProductSearchPage = () => {
                       className={styles["main-listBook__item__child"]}
                     >
                       <img
-                        src={
-                          book.image
-                            ? `${baseUrl}${
-                                book.image.startsWith("/")
-                                  ? book.image
-                                  : "/" + book.image
-                              }`
-                            : "/styles/img/tamly.webp"
-                        }
+                        src={resolveImageUrl(book.image)}
                         alt={book.title}
                         className={styles["listBook"]}
                       />
+
                       <div className={styles["item__child__title"]}>
                         <div className={styles["title__book"]}>
                           {book.title}

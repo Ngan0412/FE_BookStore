@@ -7,9 +7,7 @@ const Header = () => {
   const navigate = useNavigate(); // Dùng để chuyển trang
 
   const handleSearch = () => {
-    if (query.trim() !== "") {
-      navigate(`/search?q=${encodeURIComponent(query)}`);
-    }
+    navigate(`/search${query.trim() ? `?q=${encodeURIComponent(query)}` : ""}`);
   };
 
   const handleKeyDown = (e) => {
@@ -21,7 +19,7 @@ const Header = () => {
   return (
     <div className="header">
       <div className="header__main">
-        <div className="header__main__logo">
+        <div className="header__main__logo" onClick={() => navigate("/")}>
           <div className="icon">
             <img src="../styles/img/logo2.jpg" alt="logo" className="logo" />
           </div>
@@ -60,6 +58,12 @@ const Header = () => {
               <i className="fas fa-user"></i>
             </div>
             <div className="text">Tài Khoản</div>
+
+            {/* Dropdown khi hover */}
+            <div className="login-dropdown">
+              <button className="login-btn">Đăng nhập</button>
+              <button className="register-btn">Đăng ký</button>
+            </div>
           </div>
         </div>
       </div>
