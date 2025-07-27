@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./SuggestProductGrid.css"; // bạn có thể tạo file CSS tương ứng
-
+import styles from "./SuggestProductGrid.module.css"; // bạn có thể tạo file CSS tương ứng
+import { Link } from "react-router-dom";
 const BookList = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     axios
       .get("https://localhost:7226/api/Book/getAll")
@@ -19,47 +20,50 @@ const BookList = () => {
   }, []);
   if (loading) return <p style={{ padding: "20px" }}> Đang tải dữ liệu ...</p>;
   return (
-    <div className="booklist">
-      <div className="main-book">
-        <div className="main-bookSuggestions__content">
-          <div className="bookSuggestions__title">
-            <div className="title-sugestion">
-              <span className="star">
-                <i className="fa-regular fa-star"></i>
-                <i className="fa-regular fa-star"></i>
+    <div className={styles["booklist"]}>
+      <div className={styles["main-book"]}>
+        <div className={styles["main-bookSuggestions__content "]}>
+          <div className={styles["bookSuggestions__title"]}>
+            <div className={styles["title-sugestion"]}>
+              <span className={styles["star"]}>
+                <i className={styles["fa-regular fa-star"]}></i>
+                <i className={styles["fa-regular fa-star"]}></i>
               </span>
               Gợi Ý Cho Bạn
-              <span className="star">
-                <i className="fa-regular fa-star"></i>
-                <i className="fa-regular fa-star"></i>
+              <span className={styles["star"]}>
+                <i className={styles["fa-regular fa-star"]}></i>
+                <i className={styles["fa-regular fa-star"]}></i>
               </span>
             </div>
           </div>
-          <div className="main-bookSuggestions__nav"></div>
+          <div className={styles["main-bookSuggestions__nav"]}></div>
         </div>
 
-        <div className="main-bookSuggestions__item">
+        <div className={styles["main-bookSuggestions__item"]}>
           {books.map((book, index) => (
-            <div className="main-bookSuggestions__item__child" key={index}>
+            <Link
+              to={`/book/${book.id}`}
+              key={index}
+              className={styles["main-bookSuggestions__item__child"]}
+            >
               <img
-                src={book.image || "/styles/img/tamly.webp"}
+                src={book.image}
                 alt={book.title}
-                className="listBook"
+                className={styles["listBook"]}
               />
-              <div className="item__child__title">
-                <div className="title__book">{book.title}</div>
-                <div className="price__book">
-                  <div className="price__book__new">
-                    <p className="price">{(book.price * 80) / 100}</p>
-                    <p className="promotion">20%</p>
+              <div className={styles["item__child__title"]}>
+                <div className={styles["title__book"]}>{book.title}</div>
+                <div className={styles["price__book"]}>
+                  <div className={styles["price__book__new"]}>
+                    <p className={styles["price"]}>{(book.price * 80) / 100}</p>
+                    <p className={styles["promotion"]}>20%</p>
                   </div>
-                  <div className="price__book__old">
-                    <p className="price">{book.price}</p>
+                  <div className={styles["price__book__old"]}>
+                    <p className={styles["price"]}>{book.price}</p>
                   </div>
-                  <p className="sold">{book.sold}</p>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
