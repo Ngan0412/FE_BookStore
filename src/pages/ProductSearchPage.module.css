@@ -6,7 +6,7 @@
   background-color: #f0f0f0;
 }
 .main-content__search {
-  width: 98%;
+  width: 100%;
   background-color: #f0f0f0;
   display: flex;
   justify-content: center;
@@ -85,7 +85,7 @@
   border-radius: 1px;
   display: grid;
   grid-template-columns: repeat(4, 220px);
-  grid-template-rows: repeat(2, 295px);
+  grid-template-rows: repeat(5, 295px);
   background-color: #f0f0f0;
   margin-top: 10px;
 }
@@ -139,6 +139,7 @@
 .listBook__title {
   width: 100%;
   display: flex;
+  margin-top: 55px;
   font-size: 20px;
   justify-content: start;
   align-items: center;
@@ -160,6 +161,6 @@
   color: #fff;
 }
 .listBook {
-  width: 100px;
+  width: 150px;
   margin: 15px 0;
 }

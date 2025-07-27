@@ -1,0 +1,272 @@
+/* giỏ hàng */
+.booklist {
+  width: 100%;
+  min-height: 250px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  padding-top: 20px;
+  background-color: #5f9c3f;
+  /* background-color: #f0f0f0; */
+}
+
+.main-book {
+  /* background-color: #fff; */
+  width: 98%;
+  margin-top: 55px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
+  box-shadow: 10px 10px 5px 5px rgba(0, 0, 0, 0.03);
+  padding: 10px;
+}
+.main-detail__item__right__title {
+  border-radius: 8px;
+  width: 100%;
+  background-color: #fff;
+  padding: 0 10px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+.book {
+  width: 120px;
+  margin-left: 10px;
+}
+/* left */
+.main-detail__item__left {
+  width: 65%;
+  border-radius: 15px;
+  background-color: #f0f0f0;
+  box-sizing: border-box;
+  align-self: flex-start;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+ul {
+  display: flex;
+}
+.item__left__top {
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  display: flex;
+  background-color: #fff;
+}
+
+.item__left__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 20px;
+  width: 100%;
+  border-radius: 5px;
+  min-height: 50px;
+  background-color: #fff;
+}
+.main-detail__item {
+  width: 100%;
+  display: flex;
+}
+/* tăng giảm số lượng */
+.quantity-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f2f2f2;
+  padding: 6px 10px;
+  border-radius: 8px;
+  width: fit-content;
+}
+
+.quantity-btn {
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  /* Do chưa có JS */
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.quantity-input {
+  width: 40px;
+  height: 30px;
+  text-align: center;
+  font-size: 16px;
+  border: none;
+  background-color: white;
+  border-radius: 4px;
+}
+
+/*  check box */
+.custom-checkbox {
+  display: flex;
+  justify-content: space-between; /* hoặc space-around nếu muốn khoảng cách hai bên */
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.custom-checkbox input {
+  display: none; /* Ẩn checkbox mặc định */
+}
+
+.checkmark {
+  width: 25px;
+  height: 25px;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 4px;
+  display: inline-block;
+  margin-right: 8px;
+  position: relative;
+}
+.text-shoppingCart {
+  font-size: 22px;
+}
+.title-shoppingCart {
+  font-size: 28px;
+  margin: 15px 0;
+  display: flex;
+}
+/* Dấu tích ban đầu ẩn */
+.checkmark::after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 7px;
+  top: 3px;
+  width: 10px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Khi input được tích -> thay đổi màu nền và hiện dấu tích */
+.custom-checkbox input:checked + .checkmark {
+  background-color: #c92127;
+}
+
+.custom-checkbox input:checked + .checkmark::after {
+  display: block;
+}
+
+/* Khi checkbox được chọn */
+.custom-checkbox input:checked + .checkmark::after {
+  display: block;
+}
+
+.row-grid {
+  display: grid;
+  grid-template-columns: 40px 400px 2fr 120px 40px;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+}
+.info-bookCart {
+  display: flex;
+}
+.title-bookCart {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.title-book {
+  display: flex;
+  align-items: start;
+  font-size: 15px;
+}
+.price__book {
+  display: flex;
+}
+.color-new {
+  color: #000 !important;
+}
+.price {
+  margin-left: 5px;
+}
+
+/* right */
+.main-detail__item__right {
+  padding: 0 15px;
+  width: 35%;
+  display: flex;
+  margin-left: 15px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+}
+.main-pay {
+  background-color: #fff;
+  padding: 10px;
+}
+.text-discount {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.pay_discount {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  border-bottom: 1px solid #ccc; /* Thanh ngang */
+  padding-bottom: 10px;
+  margin: 10px;
+}
+.main-pay {
+  width: 100%;
+  border-radius: 8px;
+}
+.price-pay {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.btn-pay-color {
+  width: 100% !important;
+  color: #fff !important;
+  background-color: #c92127 !important;
+}
+.right__title {
+  color: rgb(95, 156, 63);
+  font-size: 25px;
+}
+.right__title i {
+  margin-right: 10px;
+}
+.btn.text-discount__item {
+  margin-left: calc(100% / 2 - 100px);
+}
+.right__title-small {
+  font-size: 20px !important;
+  display: flex;
+  align-items: end;
+}
+.btn {
+  width: 200px;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 10px;
+  border: 2px solid #5f9c3f;
+  color: #5f9c3f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0;
+  cursor: pointer;
+}

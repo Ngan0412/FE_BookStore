@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaBook } from "react-icons/fa";
-import "./ProductGrid.css";
+import styles from "./ProductGrid.module.css";
 import { Link } from "react-router-dom";
 
 const BookList = () => {
@@ -29,45 +29,51 @@ const BookList = () => {
   if (loading) return <p style={{ padding: "20px" }}> Đang tải dữ liệu ...</p>;
 
   return (
-    <div className="booklist">
-      <div className="main-book">
-        <div className="main-listBook__content">
-          <div className="listBook__title">
-            <div className="icon-book">
+    <div className={styles["booklist"]}>
+      <div className={styles["main-book"]}>
+        <div className={styles["main-listBook__content"]}>
+          <div className={styles["listBook__title"]}>
+            <div className={styles["icon-book"]}>
               <FaBook />
             </div>
-            <div className="title">TẤT CẢ SẢN PHẨM</div>
+            <div className={styles["title"]}>TẤT CẢ SẢN PHẨM</div>
           </div>
 
           {/* Navigation bar bị ẩn trong HTML gốc, có thể thêm sau */}
         </div>
 
-        <div className="main-listBook__item">
+        <div className={styles["main-listBook__item"]}>
           {visibleBooks.map((book, index) => (
             <Link
               to={`/book/${book.id}`}
               key={index}
-              className="main-listBook__item__child"
+              className={styles["main-listBook__item__child"]}
             >
-              <img src={book.image} alt={book.title} className="listBook" />
-              <div className="item__child__title">
-                <div className="title__book">{book.title}</div>
-                <div className="price__book">
-                  <div className="price__book__new">
-                    <p className="price">{(book.price * 80) / 100}</p>
-                    <p className="promotion">20%</p>
+              <img
+                src={book.image}
+                alt={book.title}
+                className={styles["listBook"]}
+              />
+              <div className={styles["item__child__title"]}>
+                <div className={styles["title__book"]}>{book.title}</div>
+                <div className={styles["price__book"]}>
+                  <div className={styles["price__book__new"]}>
+                    <p className={styles["price"]}>{(book.price * 80) / 100}</p>
+                    <p className={styles["promotion"]}>20%</p>
                   </div>
-                  <div className="price__book__old">
-                    <p className="price">{book.price}</p>
+                  <div className={styles["price__book__old"]}>
+                    <p className={styles["price"]}>{book.price}</p>
                   </div>
-                  <p className="sold">{book.price}</p>
                 </div>
               </div>
             </Link>
           ))}
         </div>
         {!showAll && (
-          <button className="btn btn__xemthem" onClick={handleShowMore}>
+          <button
+            className={`${styles.btn} ${styles.btn__xemthem}`}
+            onClick={handleShowMore}
+          >
             Xem Thêm
           </button>
         )}

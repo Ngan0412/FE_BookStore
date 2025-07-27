@@ -1,7 +1,14 @@
 import React from "react";
 import "./BookDetailPage.css"; // Giả sử bạn đã tách style riêng
+import { useNavigate } from "react-router-dom";
 
 const BookDetailPage = () => {
+  const navigate = useNavigate();
+
+  const handleBuyNow = () => {
+    navigate("/cart");
+    window.scrollTo(0, 0);
+  };
   return (
     <div className="booklist">
       <div className="main-book">
@@ -21,7 +28,9 @@ const BookDetailPage = () => {
                 </div>
                 Thêm Vào Giỏ Hàng
               </button>
-              <button className="btn btn__muangay">Mua Ngay</button>
+              <button className="btn btn__muangay" onClick={handleBuyNow}>
+                Mua Ngay
+              </button>
             </div>
 
             <div className="detail__title">

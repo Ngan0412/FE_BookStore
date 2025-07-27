@@ -46,7 +46,11 @@ const Header = () => {
         </div>
 
         <div className="header__main__info">
-          <div className="header__main__shoppingCard">
+          <div
+            className="header__main__shoppingCard"
+            onClick={() => navigate("/cart")}
+            style={{ cursor: "pointer" }} // để hiện icon tay khi rê chuột
+          >
             <div className="icon">
               <i className="fa-solid fa-cart-shopping"></i>
             </div>

@@ -14,7 +14,17 @@ const ProductSearchPage = () => {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [authors, setAuthor] = useState([]);
+  const [selectedAuthor, setSelectedAuthor] = useState([]);
+  const [publishers, setPublisher] = useState([]);
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState([]);
 
+  const [selectedPublisher, setSelectedPublisher] = useState([]);
+  const priceRanges = [
+    { label: "0đ-150,000đ", min: 0, max: 150000 },
+    { label: "150,000đ - 300,000đ", min: 150000, max: 300000 },
+    { label: "300,000đ - 450,000đ", min: 300000, max: 450000 },
+  ];
   // Gọi API khi load component
   useEffect(() => {
     const fetchCategories = async () => {
@@ -29,7 +39,32 @@ const ProductSearchPage = () => {
     fetchCategories();
   }, []);
   useEffect(() => {
+    const fetchAuthors = async () => {
+      try {
+        const res = await axios.get("https://localhost:7226/api/Author");
+        setAuthor(res.data);
+      } catch (error) {
+        console.error("Lỗi khi lấy tác giả:", error);
+      }
+    };
+
+    fetchAuthors();
+  }, []);
+  useEffect(() => {
+    const fetchPublisher = async () => {
+      try {
+        const res = await axios.get("https://localhost:7226/api/Publisher");
+        setPublisher(res.data);
+      } catch (error) {
+        console.error("Lỗi khi lấy nhà xuất bản:", error);
+      }
+    };
+
+    fetchPublisher();
+  }, []);
+  useEffect(() => {
     const fetchBooks = async () => {
+      window.scrollTo({ top: 0, behavior: "smooth" }); // ⬅ Thêm dòng này
       try {
         const res = await axios.get("https://localhost:7226/api/Book/getAll");
         const allBooks = res.data;
@@ -44,8 +79,28 @@ const ProductSearchPage = () => {
             selectedCategories.length > 0
               ? selectedCategories.includes(book.categoryId)
               : true;
+          const matchPrice =
+            selectedPriceRanges.length > 0
+              ? selectedPriceRanges.some(
+                  (range) => book.price >= range.min && book.price <= range.max
+                )
+              : true;
+          const matchAuthor =
+            selectedAuthor.length > 0
+              ? selectedAuthor.includes(book.authorId)
+              : true;
+          const matchPublisher =
+            selectedPublisher.length > 0
+              ? selectedPublisher.includes(book.publisherId)
+              : true;
 
-          return matchKeyword && matchCategory;
+          return (
+            matchKeyword &&
+            matchCategory &&
+            matchAuthor &&
+            matchPublisher &&
+            matchPrice
+          );
         });
 
         setBooks(filtered);
@@ -57,9 +112,15 @@ const ProductSearchPage = () => {
     };
 
     fetchBooks();
-  }, [keyword, selectedCategories]);
+  }, [
+    keyword,
+    selectedCategories,
+    selectedAuthor,
+    selectedPublisher,
+    selectedPriceRanges,
+  ]);
 
-  const baseUrl = "http://localhost:7226";
+  const baseUrl = "http://localhost:5173";
   // Hàm xử lý ảnh
   const resolveImageUrl = (imagePath) => {
     if (!imagePath) return "/styles/img/tamly.webp"; // Ảnh mặc định nếu không có ảnh
@@ -102,69 +163,72 @@ const ProductSearchPage = () => {
 
           <div className={styles["text_title__searchLeft"]}>
             <p className={styles["title-search"]}>GIÁ</p>
-            <div className={styles["title-book"]}>
-              <input type="checkbox" defaultChecked />
-              <span className={styles["checkmark"]}></span> 0đ-150,000đ
-            </div>
-            <div className={styles["title-book"]}>
-              <input type="checkbox" defaultChecked />
-              <span className={styles["checkmark"]}></span> 150,000đ - 300,000đ
-            </div>
-            <div className={styles["title-book"]}>
-              <input type="checkbox" defaultChecked />
-              <span className={styles["checkmark"]}></span> 300,000đ-450,000đ
-            </div>
+            {priceRanges.map((range, index) => (
+              <div key={index} className={styles["title-book"]}>
+                <input
+                  type="checkbox"
+                  checked={selectedPriceRanges.some(
+                    (r) => r.min === range.min && r.max === range.max
+                  )}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedPriceRanges((prev) => [...prev, range]);
+                    } else {
+                      setSelectedPriceRanges((prev) =>
+                        prev.filter(
+                          (r) => r.min !== range.min || r.max !== range.max
+                        )
+                      );
+                    }
+                  }}
+                />
+                <span className={styles["checkmark"]}></span> {range.label}
+              </div>
+            ))}
           </div>
 
           <div className={styles["text_title__searchLeft"]}>
-            <p className={styles["title-search"]}>TÁC GIẢ</p>
-            <div className={styles["title-book"]}>
-              <input type="checkbox" defaultChecked />
-              <span className={styles["checkmark"]}></span> Nguyễn Nhật Ánh
-            </div>
-            <div className={styles["title-book"]}>
-              <input type="checkbox" defaultChecked />
-              <span className={styles["checkmark"]}></span> Thùy Ngân
-            </div>
-            <div className={styles["title-book"]}>
-              <input type="checkbox" defaultChecked />
-              <span className={styles["checkmark"]}></span> Ngân Trần
-            </div>
+            <div className={styles["title-search"]}>TÁC GIẢ</div>
+            {authors.map((author) => (
+              <div key={author.id} className={styles["title-book"]}>
+                <input
+                  type="checkbox"
+                  checked={selectedAuthor.includes(author.id)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedAuthor((prev) => [...prev, author.id]);
+                    } else {
+                      setSelectedAuthor((prev) =>
+                        prev.filter((id) => id !== author.id)
+                      );
+                    }
+                  }}
+                />
+                <span className={styles["checkmark"]}></span> {author.name}
+              </div>
+            ))}
           </div>
 
           <div className={styles["text_title__searchLeft"]}>
-            <p className={styles["title-search"]}>NHÀ CUNG CẤP</p>
-            <div className={styles["title-book"]}>
-              <input type="checkbox" defaultChecked />
-              <span className={styles["checkmark"]}></span> Fahasa
-            </div>
-            <div className={styles["title-book"]}>
-              <input type="checkbox" defaultChecked />
-              <span className={styles["checkmark"]}></span> Tiki
-            </div>
-            <div className={styles["title-book"]}>
-              <input type="checkbox" defaultChecked />
-              <span className={styles["checkmark"]}></span> Kim Đồng
-            </div>
-          </div>
-
-          <div className={styles["text_title__searchLeft"]}>
-            <p className={styles["title-search"]}>NHÀ XUẤT BẢN</p>
-            <div className={styles["title-book"]}>
-              <input type="checkbox" defaultChecked />
-              <span className={styles["checkmark"]}></span> Nhà Xuất Bản Kim
-              Đồng
-            </div>
-            <div className={styles["title-book"]}>
-              <input type="checkbox" defaultChecked />
-              <span className={styles["checkmark"]}></span> Nhà Xuất Bản Phương
-              Nam
-            </div>
-            <div className={styles["title-book"]}>
-              <input type="checkbox" defaultChecked />
-              <span className={styles["checkmark"]}></span> Nhà Xuất Bản Thùy
-              Ngân
-            </div>
+            <div className={styles["title-search"]}>NHÀ XUẤT BẢN</div>
+            {publishers.map((publisher) => (
+              <div key={publisher.id} className={styles["title-book"]}>
+                <input
+                  type="checkbox"
+                  checked={selectedPublisher.includes(publisher.id)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedPublisher((prev) => [...prev, publisher.id]);
+                    } else {
+                      setSelectedPublisher((prev) =>
+                        prev.filter((id) => id !== publisher.id)
+                      );
+                    }
+                  }}
+                />
+                <span className={styles["checkmark"]}></span> {publisher.name}
+              </div>
+            ))}
           </div>
         </div>
 
