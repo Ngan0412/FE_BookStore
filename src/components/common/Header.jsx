@@ -8,6 +8,7 @@ const Header = () => {
 
   const handleSearch = () => {
     navigate(`/search${query.trim() ? `?q=${encodeURIComponent(query)}` : ""}`);
+    window.scrollTo(0, 0);
   };
 
   const handleKeyDown = (e) => {
@@ -48,7 +49,10 @@ const Header = () => {
         <div className="header__main__info">
           <div
             className="header__main__shoppingCard"
-            onClick={() => navigate("/cart")}
+            onClick={() => {
+              navigate("/cart");
+              window.scrollTo(0, 0);
+            }}
             style={{ cursor: "pointer" }} // để hiện icon tay khi rê chuột
           >
             <div className="icon">
