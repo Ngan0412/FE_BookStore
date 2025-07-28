@@ -268,7 +268,7 @@ const ProductSearchPage = () => {
                         <div className={styles["title__book"]}>
                           {book.title}
                         </div>
-                        <div className={styles["price__book"]}>
+                        <div className={styles["price__book__new"]}>
                           <p className={styles["price"]}>
                             {book.price.toLocaleString()} đ
                           </p>

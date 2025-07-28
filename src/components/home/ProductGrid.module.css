@@ -1,5 +1,26 @@
 /* list book */
+.booklist {
+  width: 100%;
+  min-height: 250px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
 
+  background-color: #f0f0f0;
+}
+
+.main-book {
+  background-color: #fff;
+  max-width: 98%;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  justify-content: center;
+  box-shadow: 10px 10px 5px 5px rgba(0, 0, 0, 0.03);
+}
 .main-listBook__content {
   width: 100%;
 }
@@ -34,6 +55,9 @@
 }
 .title__book {
   color: #000;
+}
+.title {
+  font-weight: bold;
 }
 .title__book:hover {
   color: rgb(95, 156, 63);

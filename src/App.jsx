@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage.jsx";
 import BookDetailPage from "./pages/bookDetailPage.jsx";
 import ProductSearchPage from "./pages/ProductSearchPage.jsx";
 import CartPage from "./pages/ShoppingCartPage.jsx";
+import RegisterForm from "./pages/SignUpPage.jsx";
 function App() {
   return (
     <Router>
@@ -19,6 +20,7 @@ function App() {
             <Route path="/search" element={<ProductSearchPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/book/:bookId" element={<BookDetailPage />} />
+            <Route path="/register" element={<RegisterForm />} />
           </Routes>
         </main>
         <Footer />
