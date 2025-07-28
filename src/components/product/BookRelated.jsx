@@ -1,5 +1,5 @@
 import React from "react";
-import "./BookRelated.css"; // nếu bạn tách CSS riêng
+import styles from "./BookRelated.module.css"; // nếu bạn tách CSS riêng
 
 const relatedBooks = [
   {
@@ -46,32 +46,36 @@ const relatedBooks = [
 
 const RelatedBooks = () => {
   return (
-    <div className="booklist">
-      <div className="main-book">
-        <div className="main-listBook__content">
-          <div className="listBook__title">
-            <div className="icon-book">
+    <div className={styles["booklist"]}>
+      <div className={styles["main-book"]}>
+        <div className={styles["main-listBook__content"]}>
+          <div className={styles["listBook__title"]}>
+            <div className={styles["icon-book"]}>
               <i className="fa-solid fa-book"></i>
             </div>
-            <div className="title">SẢN PHẨM LIÊN QUAN</div>
+            <div className={styles["title"]}>SẢN PHẨM LIÊN QUAN</div>
           </div>
         </div>
 
-        <div className="main-listBook__item">
+        <div className={styles["main-listBook__item"]}>
           {relatedBooks.map((book, index) => (
-            <div key={index} className="main-listBook__item__child">
-              <img src={book.image} alt={book.title} className="listBook" />
-              <div className="item__child__title">
-                <div className="title__book">{book.title}</div>
-                <div className="price__book">
-                  <div className="price__book__new">
-                    <p className="price">{book.priceNew}</p>
-                    <p className="promotion">{book.promotion}</p>
+            <div key={index} className={styles["main-listBook__item__child"]}>
+              <img
+                src={book.image}
+                alt={book.title}
+                className={styles["listBook"]}
+              />
+              <div className={styles["item__child__title"]}>
+                <div className={styles["title__book"]}>{book.title}</div>
+                <div className={styles["price__book"]}>
+                  <div className={styles["price__book__new"]}>
+                    <p className={styles["price"]}>{book.priceNew}</p>
+                    <p className={styles["promotion"]}>{book.promotion}</p>
                   </div>
-                  <div className="price__book__old">
-                    <p className="price">{book.priceOld}</p>
+                  <div className={styles["price__book__old"]}>
+                    <p className={styles["price"]}>{book.priceOld}</p>
                   </div>
-                  <p className="sold">đã bán {book.sold}</p>
+                  <p className={styles["sold"]}>đã bán {book.sold}</p>
                 </div>
               </div>
             </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./CategoryProduct.module.css";
 import axios from "axios";
 import { FaTableCells } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 const getCategoryImage = (name) => {
   switch (name) {
@@ -87,8 +88,8 @@ const CategorySection = () => {
         </div>
       </div>
       {selectedCategory && (
-        <div className={styles["listbook"]}>
-          <div className={styles["main-listBook"]}>
+        <div className={styles["booklist"]}>
+          <div className={styles["main-book"]}>
             <div className={styles["main-listBook__content"]}>
               <div className={styles["listBook__title"]}>
                 <div className={styles["icon-book"]}>📚</div>
@@ -98,9 +99,11 @@ const CategorySection = () => {
               <div className={styles["main-listBook__item"]}>
                 {books.length > 0 ? (
                   books.map((book) => (
-                    <div
+                    <Link
                       key={book.id}
+                      to={`/book/${book.id}`}
                       className={styles["main-listBook__item__child"]}
+                      style={{ textDecoration: "none", color: "inherit" }}
                     >
                       <img
                         src={book.image || "/styles/img/default_book.webp"}
@@ -118,7 +121,10 @@ const CategorySection = () => {
                       <p className={styles["price__book__new"]}>
                         {book.price}₫
                       </p>
-                    </div>
+                      <p className={styles["price__book__old"]}>
+                        {book.price}₫
+                      </p>
+                    </Link>
                   ))
                 ) : (
                   <p style={{ padding: "20px" }}>

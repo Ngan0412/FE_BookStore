@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import styles from "./ProductSearchPage.module.css";
+import { Link } from "react-router-dom";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -252,16 +253,17 @@ const ProductSearchPage = () => {
                   <p>Không tìm thấy sách nào.</p>
                 ) : (
                   books.map((book) => (
-                    <div
+                    <Link
                       key={book.id}
+                      to={`/book/${book.id}`}
                       className={styles["main-listBook__item__child"]}
+                      style={{ textDecoration: "none", color: "inherit" }}
                     >
                       <img
                         src={resolveImageUrl(book.image)}
                         alt={book.title}
                         className={styles["listBook"]}
                       />
-
                       <div className={styles["item__child__title"]}>
                         <div className={styles["title__book"]}>
                           {book.title}
@@ -272,7 +274,7 @@ const ProductSearchPage = () => {
                           </p>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   ))
                 )}
               </div>

@@ -8,6 +8,9 @@
   justify-content: center;
   align-items: center;
 }
+.booklist {
+  margin-top: 60px !important;
+}
 .main-listBook__content {
   width: 100%;
 }
@@ -21,11 +24,11 @@
   background-color: #fff;
 }
 .main-listBook__item {
-  margin: 10px 10px;
+  margin: 50px 10px;
   border-radius: 1px;
   display: grid;
   grid-template-columns: repeat(5, 235px);
-  grid-template-rows: repeat(1, 340px);
+  grid-template-rows: repeat(1, 320px) !important;
   background-color: #f0f0f0;
   line-height: 1;
   margin-top: 10px;

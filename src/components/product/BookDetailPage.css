@@ -259,3 +259,59 @@ strong {
   font-weight: bold;
   line-height: 1.4;
 }
+
+.btn {
+  width: 200px;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 10px;
+  border: 2px solid #5f9c3f;
+  color: #5f9c3f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0;
+  cursor: pointer;
+}
+.price__book__new {
+  display: flex;
+  align-items: center;
+  color: #c92127;
+  font-size: 17px;
+  line-height: 0.2;
+  font-weight: bold;
+}
+.price__book__old {
+  color: #8c8f90;
+  font-size: 15px;
+  line-height: 0.2;
+  text-decoration: line-through;
+}
+.promotion {
+  margin-left: 10px;
+  width: 33px;
+  height: 20px;
+  font-size: 14px;
+  border-radius: 3px;
+  color: #fff;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #c92127;
+}
+
+.sold {
+  font-size: 13px;
+}
+.listBook__title {
+  width: 100%;
+  display: flex;
+  font-size: 20px;
+  justify-content: start;
+  align-items: center;
+  height: 60px;
+  background-color: rgba(95, 156, 63, 0.5);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
