@@ -1,30 +1,78 @@
-import React, { useState } from "react";
 import styles from "./ShoppingCartPage.module.css";
+import React, { useState, useEffect } from "react";
 
 const ShoppingCartPage = () => {
   // State lưu số lượng sản phẩm, giả sử mặc định là 1
-  const [quantity, setQuantity] = useState(1);
+  const [cartItems, setCartItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectAll, setSelectAll] = useState(true); // mặc định đã chọn tất cả
 
-  // Giá sản phẩm (giá mới)
-  const unitPrice = 188000;
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setSelectedItems(cartItems.map((item) => item.id));
+    } else {
+      setSelectedItems([]);
+    }
+  };
+  const handleSelectItem = (itemId) => {
+    let updatedSelectedItems;
+    if (selectedItems.includes(itemId)) {
+      updatedSelectedItems = selectedItems.filter((id) => id !== itemId);
+    } else {
+      updatedSelectedItems = [...selectedItems, itemId];
+    }
 
-  // Hàm tăng số lượng
-  const handleIncrease = () => {
-    setQuantity((prev) => prev + 1);
+    setSelectedItems(updatedSelectedItems);
+
+    // Cập nhật selectAll
+    setSelectAll(updatedSelectedItems.length === cartItems.length);
   };
 
-  // Hàm giảm số lượng (tối thiểu là 1)
-  const handleDecrease = () => {
-    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
-  };
+  const totalPrice = cartItems.reduce((sum, item) => {
+    if (selectedItems.includes(item.id)) {
+      return sum + item.quantity * item.price * 0.8;
+    }
+    return sum;
+  }, 0);
 
-  // Tính thành tiền theo số lượng
-  const totalPrice = unitPrice * quantity;
+  // const [quantity, setQuantity] = useState(1);
+  useEffect(() => {
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCartItems(storedCart);
+    setSelectedItems(storedCart.map((item) => item.id)); // chọn tất cả mặc định
+  }, []);
 
-  // Hàm format số thành dạng "xxx.xxx đ"
   const formatPrice = (price) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " đ";
+    return price.toLocaleString("vi-VN") + " đ";
   };
+  const handleIncrease = (index) => {
+    const updatedCart = [...cartItems];
+    updatedCart[index].quantity += 1;
+    setCartItems(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
+
+  const handleDecrease = (index) => {
+    const updatedCart = [...cartItems];
+    if (updatedCart[index].quantity > 1) {
+      updatedCart[index].quantity -= 1;
+      setCartItems(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    }
+  };
+
+  const handleDelete = (index) => {
+    const updatedCart = [...cartItems];
+    const removedItem = updatedCart.splice(index, 1)[0];
+    setCartItems(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setSelectedItems(selectedItems.filter((id) => id !== removedItem.id));
+  };
+  useEffect(() => {
+    setSelectAll(
+      selectedItems.length === cartItems.length && cartItems.length > 0
+    );
+  }, [selectedItems, cartItems]);
 
   return (
     <main>
@@ -32,7 +80,7 @@ const ShoppingCartPage = () => {
       <div className={styles.booklist}>
         <div className={styles["main-book"]}>
           <div className={styles["title-shoppingCart"]}>
-            GIỎ HÀNG ({quantity} sản phẩm )
+            GIỎ HÀNG ({cartItems.length} sản phẩm)
           </div>
           <div className={styles["main-detail__item"]}>
             {/* item left */}
@@ -41,78 +89,98 @@ const ShoppingCartPage = () => {
                 <label
                   className={`${styles["custom-checkbox"]} ${styles["row-grid"]}`}
                 >
-                  <input type="checkbox" defaultChecked />
+                  <input
+                    type="checkbox"
+                    checked={selectAll}
+                    onChange={handleSelectAll}
+                  />
+
                   <span className={styles.checkmark}></span>
 
                   <p className={styles["text-shoppingCart"]}>
-                    Chọn tất cả ({quantity} sản phẩm)
+                    Chọn tất cả ({cartItems.length} sản phẩm)
                   </p>
                   <p className={styles["text-shoppingCart"]}>Số lượng</p>
                   <p className={styles["text-shoppingCart"]}>Thành tiền</p>
                 </label>
               </div>
-              <div
-                className={`${styles["item__left__bottom"]} ${styles["row-grid"]}`}
-              >
-                <label className={styles["custom-checkbox"]}>
-                  <input type="checkbox" defaultChecked />
-                  <span className={styles.checkmark}></span>
-                </label>
+              {cartItems.map((item, index) => (
+                <div
+                  key={item.id}
+                  className={`${styles["item__left__bottom"]} ${styles["row-grid"]}`}
+                >
+                  <label className={styles["custom-checkbox"]}>
+                    <input
+                      type="checkbox"
+                      checked={selectedItems.includes(item.id)}
+                      onChange={() => handleSelectItem(item.id)}
+                    />
 
-                <div className={styles["info-bookCart"]}>
-                  <img
-                    src="../../styles/img/9786043775662.webp"
-                    alt=""
-                    className={styles.book}
-                  />
-                  <div className={styles["title-bookCart"]}>
-                    <div className={styles["title-book"]}>
-                      Giáo Trình Chuẩn HSK 1 (Tái Bản 2023)
-                    </div>
-                    <div className={styles.price__book}>
-                      <div
-                        className={`${styles.price__book__new} ${styles["color-new"]}`}
-                      >
-                        <p className={styles.price}>{formatPrice(unitPrice)}</p>
-                      </div>
-                      <div className={styles.price__book__old}>
-                        <p className={styles.price}>198.000 đ</p>
+                    <span className={styles.checkmark}></span>
+                  </label>
+
+                  <div className={styles["info-bookCart"]}>
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className={styles.book}
+                    />
+                    <div className={styles["title-bookCart"]}>
+                      <div className={styles["title-book"]}>{item.title}</div>
+                      <div className={styles.price__book}>
+                        <div
+                          className={`${styles.price__book__new} ${styles["color-new"]}`}
+                        >
+                          <p className={styles.price}>
+                            {formatPrice(item.price * 0.8)}
+                          </p>
+                        </div>
+                        <div className={styles.price__book__old}>
+                          <p className={styles.price}>
+                            {formatPrice(item.price)}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div className={styles["quantity-wrapper"]}>
-                  <button
-                    className={styles["quantity-btn"]}
-                    onClick={handleDecrease}
-                    type="button"
-                  >
-                    -
-                  </button>
-                  <input
-                    type="text"
-                    className={styles["quantity-input"]}
-                    value={quantity}
-                    readOnly
-                  />
-                  <button
-                    className={styles["quantity-btn"]}
-                    onClick={handleIncrease}
-                    type="button"
-                  >
-                    +
-                  </button>
-                </div>
+                  <div className={styles["quantity-wrapper"]}>
+                    <button
+                      className={styles["quantity-btn"]}
+                      onClick={() => handleDecrease(index)}
+                      type="button"
+                    >
+                      -
+                    </button>
+                    <input
+                      type="text"
+                      className={styles["quantity-input"]}
+                      value={item.quantity}
+                      readOnly
+                    />
+                    <button
+                      className={styles["quantity-btn"]}
+                      onClick={() => handleIncrease(index)}
+                      type="button"
+                    >
+                      +
+                    </button>
+                  </div>
 
-                <div className={styles.price__book__new}>
-                  <p className={styles.price}>{formatPrice(totalPrice)}</p>
-                </div>
+                  <div className={styles.price__book__new}>
+                    <p className={styles.price}>
+                      {formatPrice(item.price * 0.8 * item.quantity)}
+                    </p>
+                  </div>
 
-                <div className={styles["icon-delete"]}>
-                  <i className="fa-solid fa-trash"></i>
+                  <div className={styles["icon-delete"]}>
+                    <i
+                      className="fa-solid fa-trash"
+                      onClick={() => handleDelete(index)}
+                    ></i>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
             {/* item right */}
             <div className={styles["main-detail__item__right"]}>

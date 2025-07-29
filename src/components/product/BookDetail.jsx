@@ -23,7 +23,23 @@ const BookDetailPage = () => {
       });
   }, [bookId]);
 
+  const handleAddToCart = () => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const existingItem = cart.find((item) => item.id === book.id);
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      cart.push({ ...book, quantity: 1 });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Đã thêm vào giỏ hàng!");
+  };
+
   const handleBuyNow = () => {
+    handleAddToCart(); // Thêm vào giỏ hàng trước
     navigate("/cart");
     window.scrollTo(0, 0);
   };
@@ -39,7 +55,7 @@ const BookDetailPage = () => {
           <div className="main-detail__item__left">
             <img src={book.image} alt={book.title} className="book" />
             <div className="btn-detail">
-              <button className="btn btn__themvaogio">
+              <button className="btn btn__themvaogio" onClick={handleAddToCart}>
                 <div className="icon icon__giohang">
                   <i className="fa-solid fa-cart-shopping"></i>
                 </div>
