@@ -69,7 +69,10 @@ const Header = () => {
 
             {/* Dropdown khi hover */}
             <div className="login-dropdown">
-              <button className="login-btn">Đăng nhập</button>
+              <button className="login-btn" onClick={() => navigate("/login")}>
+                Đăng nhập
+              </button>
+
               <button
                 className="register-btn"
                 onClick={() => navigate("/register")}
