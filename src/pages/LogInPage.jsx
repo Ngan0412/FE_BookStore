@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import "./LoginPage.css"; // CSS chuyển từ login.css nếu có
-
+import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    // Xử lý đăng nhập ở đây
+    e.preventDefault(); // ✅ Ngăn chặn reload trang
     alert("Đăng nhập với: " + formData.email);
+    navigate("/"); // ✅ Điều hướng về trang Home
   };
 
   return (

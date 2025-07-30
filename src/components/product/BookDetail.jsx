@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./BookDetailPage.css";
+import { CartContext } from "../../contexts/CartContext.jsx";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { useContext } from "react";
 
 const BookDetailPage = () => {
   const { bookId } = useParams(); // Lấy id từ URL
@@ -23,21 +25,12 @@ const BookDetailPage = () => {
       });
   }, [bookId]);
 
+  const { addToCart } = useContext(CartContext); // lấy hàm
+
   const handleAddToCart = () => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    const existingItem = cart.find((item) => item.id === book.id);
-
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      cart.push({ ...book, quantity: 1 });
-    }
-
-    localStorage.setItem("cart", JSON.stringify(cart));
+    addToCart(book); // dùng context để thêm
     alert("Đã thêm vào giỏ hàng!");
   };
-
   const handleBuyNow = () => {
     handleAddToCart(); // Thêm vào giỏ hàng trước
     navigate("/cart");

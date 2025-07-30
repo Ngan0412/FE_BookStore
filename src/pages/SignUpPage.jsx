@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import "./SignUpPage.css";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 const RegisterForm = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" }); // Cuộn lên đầu khi vào trang
@@ -12,7 +13,7 @@ const RegisterForm = () => {
     password: "",
     confirmPassword: "",
   });
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -109,7 +110,17 @@ const RegisterForm = () => {
         </button>
 
         <p className="login-link">
-          Đã có tài khoản? <a href="#">Đăng nhập</a>
+          Đã có tài khoản?{" "}
+          <span
+            onClick={() => navigate("/login")}
+            style={{
+              color: "blue",
+              cursor: "pointer",
+              textDecoration: "underline",
+            }}
+          >
+            Đăng nhập
+          </span>
         </p>
       </form>
     </div>

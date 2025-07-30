@@ -112,7 +112,7 @@ ul {
   justify-content: space-between; /* hoặc space-around nếu muốn khoảng cách hai bên */
   align-items: center;
   width: 100%;
-  padding: 10px;
+  padding: 3px;
   border-radius: 8px;
   background-color: #fff;
 }

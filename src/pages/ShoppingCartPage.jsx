@@ -1,11 +1,20 @@
 import styles from "./ShoppingCartPage.module.css";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ShoppingCartPage = () => {
   // State lưu số lượng sản phẩm, giả sử mặc định là 1
   const [cartItems, setCartItems] = useState([]);
+  const navigate = useNavigate();
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectAll, setSelectAll] = useState(true); // mặc định đã chọn tất cả
+  const handleCheckout = () => {
+    const selectedProducts = cartItems.filter((item) =>
+      selectedItems.includes(item.id)
+    );
+    localStorage.setItem("checkoutItems", JSON.stringify(selectedProducts));
+    navigate("/checkout");
+  };
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
@@ -224,7 +233,10 @@ const ShoppingCartPage = () => {
                   <p>Tổng số tiền (gồm VAT)</p>
                   <strong>{formatPrice(totalPrice)}</strong>
                 </div>
-                <button className={`${styles.btn} ${styles["btn-pay-color"]}`}>
+                <button
+                  className={`${styles.btn} ${styles["btn-pay-color"]}`}
+                  onClick={handleCheckout}
+                >
                   THANH TOÁN
                 </button>
               </div>
