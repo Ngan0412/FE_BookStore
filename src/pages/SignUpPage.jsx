@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 const RegisterForm = () => {
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Cuộn lên đầu khi vào trang
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
   const [formData, setFormData] = useState({
     fullname: "",

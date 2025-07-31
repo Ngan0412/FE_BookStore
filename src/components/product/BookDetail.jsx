@@ -4,15 +4,19 @@ import { CartContext } from "../../contexts/CartContext.jsx";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useContext } from "react";
+import RelatedBooks from "../../components/product/BookRelated.jsx";
 
 const BookDetailPage = () => {
   const { bookId } = useParams(); // Lấy id từ URL
   const navigate = useNavigate();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [allBooks, setAllBooks] = useState([]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    // Lấy chi tiết sách
     axios
       .get(`https://localhost:7226/api/Book/${bookId}`)
       .then((res) => {
@@ -22,6 +26,16 @@ const BookDetailPage = () => {
       .catch((err) => {
         console.error("Lỗi khi lấy chi tiết sách:", err);
         setLoading(false);
+      });
+
+    // Lấy tất cả sách để lọc sách liên quan
+    axios
+      .get("https://localhost:7226/api/Book/getAll")
+      .then((res) => {
+        setAllBooks(res.data);
+      })
+      .catch((err) => {
+        console.error("Lỗi khi lấy danh sách sách:", err);
       });
   }, [bookId]);
 
@@ -39,6 +53,14 @@ const BookDetailPage = () => {
 
   if (loading) return <p style={{ padding: "20px" }}>Đang tải dữ liệu...</p>;
   if (!book) return <p style={{ padding: "20px" }}>Không tìm thấy sách!</p>;
+  // Lọc sách liên quan
+  const relatedBooks = allBooks
+    .filter(
+      (b) =>
+        b.id !== book.id &&
+        (b.category === book.category || b.author === book.author)
+    )
+    .slice(0, 5); // giới hạn 5 cuốn liên quan
 
   return (
     <div className="booklist">
@@ -121,6 +143,7 @@ const BookDetailPage = () => {
           </div>
         </div>
       </div>
+      <RelatedBooks relatedBooks={relatedBooks} />;
     </div>
   );
 };

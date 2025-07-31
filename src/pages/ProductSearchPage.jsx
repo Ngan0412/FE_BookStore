@@ -65,7 +65,7 @@ const ProductSearchPage = () => {
   }, []);
   useEffect(() => {
     const fetchBooks = async () => {
-      window.scrollTo({ top: 0, behavior: "smooth" }); // ⬅ Thêm dòng này
+      window.scrollTo({ top: 0, behavior: "smooth" });
       try {
         const res = await axios.get("https://localhost:7226/api/Book/getAll");
         const allBooks = res.data;

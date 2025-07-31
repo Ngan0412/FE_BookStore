@@ -13,6 +13,8 @@ const CheckoutPage = () => {
   const [checkoutItems, setCheckoutItems] = useState([]);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
     const storedItems = JSON.parse(localStorage.getItem("checkoutItems")) || [];
     setCheckoutItems(storedItems);
   }, []);

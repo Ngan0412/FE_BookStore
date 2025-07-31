@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import "./LoginPage.css"; // CSS chuyển từ login.css nếu có
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 const LoginPage = () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -51,7 +53,7 @@ const LoginPage = () => {
             Chưa có tài khoản? <a href="/register">Đăng ký</a>
           </p>
           <p className="signup-forget">
-            <a href="/forget">Quên Mật Khẩu</a>
+            <Link to="/forgot">Quên Mật Khẩu</Link>
           </p>
         </div>
       </form>

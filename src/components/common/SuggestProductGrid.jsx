@@ -2,6 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./SuggestProductGrid.module.css"; // bạn có thể tạo file CSS tương ứng
 import { Link } from "react-router-dom";
+const formatPrice = (price) => {
+  return price.toLocaleString("vi-VN", {
+    style: "currency",
+    currency: "VND",
+    minimumFractionDigits: 0,
+  });
+};
+
 const BookList = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -55,11 +63,13 @@ const BookList = () => {
                 <div className={styles["title__book"]}>{book.title}</div>
                 <div className={styles["price__book"]}>
                   <div className={styles["price__book__new"]}>
-                    <p className={styles["price"]}>{(book.price * 80) / 100}</p>
+                    <p className={styles["price"]}>
+                      {formatPrice((book.price * 80) / 100)}
+                    </p>
                     <p className={styles["promotion"]}>20%</p>
                   </div>
                   <div className={styles["price__book__old"]}>
-                    <p className={styles["price"]}>{book.price}</p>
+                    <p className={styles["price"]}>{formatPrice(book.price)}</p>
                   </div>
                 </div>
               </div>
