@@ -15,7 +15,8 @@ import RegisterForm from "./pages/SignUpPage.jsx";
 import LoginPage from "./pages/LogInPage.jsx";
 import ForgotPasswordPage from "./pages/ForGotPWPage.jsx";
 import CheckoutPage from "./pages/CheckOutPage.jsx";
-
+import OrderPage from "./pages/delivery.jsx";
+import AccountInfoPage from "./pages/AccountInfor.jsx";
 function App() {
   return (
     <UserProvider>
