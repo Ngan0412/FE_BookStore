@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaComments, FaTimes } from "react-icons/fa";
 import "./ChatBot.css";
 
-const ChatBot = () => {
+const ChatBot = ({ setSuggestedProductsFromBot }) => {
   const [showChat, setShowChat] = useState(false);
   const [messages, setMessages] = useState([
     { sender: "bot", text: "Xin chào! Tôi có thể giúp gì cho bạn?" },
@@ -32,7 +32,20 @@ const ChatBot = () => {
       const suggestions = data.suggestions || [];
 
       const isProductArray = Array.isArray(products);
+      if (setSuggestedProductsFromBot && Array.isArray(products)) {
+        const normalizedProducts = products.map((product) => ({
+          id: product.Id,
+          title: product.Title,
+          price: product.Price,
+          image: product.Image,
+        }));
 
+        setSuggestedProductsFromBot((prev) => [...prev, ...normalizedProducts]);
+      }
+
+      if (setSuggestedProductsFromBot && Array.isArray(suggestions)) {
+        setSuggestedProductsFromBot((prev) => [...prev, ...suggestions]);
+      }
       return {
         sender: "bot",
         text: isProductArray ? "Kết quả:" : products, // Trả chuỗi lỗi hoặc thông báo từ backend
@@ -52,7 +65,8 @@ const ChatBot = () => {
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setLoading(true);
-
+    setSuggestions([]);
+    setProducts([]);
     const botResponse = await getBotResponse(input);
     setMessages((prev) => [...prev, { sender: "bot", text: botResponse.text }]);
     setSuggestions(botResponse.suggestions || []);
