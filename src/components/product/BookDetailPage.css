@@ -17,10 +17,9 @@
   width: 100%;
   min-height: 250px;
   align-items: center;
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   padding-top: 20px;
-  margin-top: 50px;
   background-color: #f0f0f0;
 }
 
@@ -197,7 +196,7 @@ body {
 }
 
 .main-title {
-  margin-top: 50px;
+  margin-top: 20px;
   font-size: 18px;
   font-weight: bold;
   color: #222;

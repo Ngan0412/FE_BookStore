@@ -1,50 +1,10 @@
 import React from "react";
-import styles from "./BookRelated.module.css"; // nếu bạn tách CSS riêng
+import styles from "./BookRelated.module.css";
+import { Link } from "react-router-dom";
 
-const relatedBooks = [
-  {
-    title: "Atomic Habits - Thay Đổi Tí Hon Hiệu Quả Bất Ngờ (Tái Bản 2023)",
-    priceNew: "188.000 đ",
-    priceOld: "198.000 đ",
-    sold: "1.8k",
-    promotion: "20%",
-    image: "/styles/img/tamly.webp",
-  },
-  {
-    title: "Atomic Habits - Thay Đổi Tí Hon Hiệu Quả Bất Ngờ (Tái Bản 2023)",
-    priceNew: "188.000 đ",
-    priceOld: "198.000 đ",
-    sold: "1.8k",
-    promotion: "20%",
-    image: "/styles/img/tamly.webp",
-  },
-  {
-    title: "Atomic Habits - Thay Đổi Tí Hon Hiệu Quả Bất Ngờ (Tái Bản 2023)",
-    priceNew: "188.000 đ",
-    priceOld: "198.000 đ",
-    sold: "1.8k",
-    promotion: "20%",
-    image: "/styles/img/9786045893104_1_1.webp",
-  },
-  {
-    title: "Giáo Trình Chuẩn HSK 1 (Tái Bản 2023)",
-    priceNew: "188.000 đ",
-    priceOld: "198.000 đ",
-    sold: "1.8k",
-    promotion: "20%",
-    image: "/styles/img/9786043775662.webp",
-  },
-  {
-    title: "Atomic Habits - Thay Đổi Tí Hon Hiệu Quả Bất Ngờ (Tái Bản 2023)",
-    priceNew: "188.000 đ",
-    priceOld: "198.000 đ",
-    sold: "1.8k",
-    promotion: "20%",
-    image: "/styles/img/tamly.webp",
-  },
-];
+const RelatedBooks = ({ relatedBooks }) => {
+  if (!relatedBooks || relatedBooks.length === 0) return null;
 
-const RelatedBooks = () => {
   return (
     <div className={styles["booklist"]}>
       <div className={styles["main-book"]}>
@@ -59,7 +19,11 @@ const RelatedBooks = () => {
 
         <div className={styles["main-listBook__item"]}>
           {relatedBooks.map((book, index) => (
-            <div key={index} className={styles["main-listBook__item__child"]}>
+            <Link
+              to={`/book/${book.id}`}
+              key={index}
+              className={styles["main-listBook__item__child"]}
+            >
               <img
                 src={book.image}
                 alt={book.title}
@@ -69,16 +33,20 @@ const RelatedBooks = () => {
                 <div className={styles["title__book"]}>{book.title}</div>
                 <div className={styles["price__book"]}>
                   <div className={styles["price__book__new"]}>
-                    <p className={styles["price"]}>{book.priceNew}</p>
-                    <p className={styles["promotion"]}>{book.promotion}</p>
+                    <p className={styles["price"]}>
+                      {(book.price * 0.8).toLocaleString()} đ
+                    </p>
+                    <p className={styles["promotion"]}>20%</p>
                   </div>
                   <div className={styles["price__book__old"]}>
-                    <p className={styles["price"]}>{book.priceOld}</p>
+                    <p className={styles["price"]}>
+                      {book.price.toLocaleString()} đ
+                    </p>
                   </div>
-                  <p className={styles["sold"]}>đã bán {book.sold}</p>
+                  <p className={styles["sold"]}>Đã bán {book.sold || 0}</p>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

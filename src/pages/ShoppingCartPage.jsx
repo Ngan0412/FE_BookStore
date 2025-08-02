@@ -1,11 +1,25 @@
 import styles from "./ShoppingCartPage.module.css";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { CartContext } from "../contexts/CartContext.jsx";
 
 const ShoppingCartPage = () => {
   // State lưu số lượng sản phẩm, giả sử mặc định là 1
-  const [cartItems, setCartItems] = useState([]);
+  const { cartItems, setCartItems } = useContext(CartContext);
+  const navigate = useNavigate();
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectAll, setSelectAll] = useState(true); // mặc định đã chọn tất cả
+  const [showPromoPopup, setShowPromoPopup] = useState(false);
+  const [appliedVoucher, setAppliedVoucher] = useState(null);
+
+  const handleCheckout = () => {
+    const selectedProducts = cartItems.filter((item) =>
+      selectedItems.includes(item.id)
+    );
+    localStorage.setItem("checkoutItems", JSON.stringify(selectedProducts));
+    navigate("/checkout");
+  };
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
@@ -34,13 +48,13 @@ const ShoppingCartPage = () => {
     }
     return sum;
   }, 0);
+  const finalPrice = Math.max(totalPrice - (appliedVoucher?.value || 0), 0);
 
   // const [quantity, setQuantity] = useState(1);
   useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartItems(storedCart);
-    setSelectedItems(storedCart.map((item) => item.id)); // chọn tất cả mặc định
-  }, []);
+    // mỗi khi cartItems thay đổi thì chọn tất cả mặc định
+    setSelectedItems(cartItems.map((item) => item.id));
+  }, [cartItems]);
 
   const formatPrice = (price) => {
     return price.toLocaleString("vi-VN") + " đ";
@@ -48,8 +62,7 @@ const ShoppingCartPage = () => {
   const handleIncrease = (index) => {
     const updatedCart = [...cartItems];
     updatedCart[index].quantity += 1;
-    setCartItems(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setCartItems(updatedCart); // context sẽ lo lưu localStorage
   };
 
   const handleDecrease = (index) => {
@@ -57,15 +70,19 @@ const ShoppingCartPage = () => {
     if (updatedCart[index].quantity > 1) {
       updatedCart[index].quantity -= 1;
       setCartItems(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
     }
   };
+  const vouchers = [
+    { id: 1, code: "Giảm 10K", value: 10000, min: 130000 },
+    { id: 2, code: "Giảm 15K", value: 15000, min: 200000 },
+    { id: 3, code: "Giảm 20K", value: 20000, min: 300000 },
+  ];
 
   const handleDelete = (index) => {
     const updatedCart = [...cartItems];
     const removedItem = updatedCart.splice(index, 1)[0];
     setCartItems(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+
     setSelectedItems(selectedItems.filter((id) => id !== removedItem.id));
   };
   useEffect(() => {
@@ -191,6 +208,7 @@ const ShoppingCartPage = () => {
                   </p>
                   <p
                     className={`${styles.right__title} ${styles["right__title-small"]}`}
+                    onClick={() => setShowPromoPopup(true)}
                   >
                     Xem Thêm
                   </p>
@@ -210,6 +228,7 @@ const ShoppingCartPage = () => {
                   </p>
                   <button
                     className={`${styles.btn} ${styles["text-discount__item"]}`}
+                    onClick={() => navigate("/")}
                   >
                     Mua Thêm
                   </button>
@@ -218,15 +237,38 @@ const ShoppingCartPage = () => {
               <div className={styles["main-pay"]}>
                 <div className={`${styles["price-pay"]} ${styles.price}`}>
                   <p>Thành Tiền</p>
-                  <strong>{formatPrice(totalPrice)}</strong>
+                  <strong>{formatPrice(totalPrice)}</strong>{" "}
+                  {/* ✅ Sửa lại: dùng totalPrice */}
                 </div>
+
+                {appliedVoucher && (
+                  <div className={styles.appliedVoucherNotice}>
+                    <span className={styles.voucherLabel}>
+                      Mã đang áp dụng:
+                    </span>{" "}
+                    <strong className={styles.voucherCode}>
+                      {appliedVoucher.code}
+                    </strong>{" "}
+                    <span className={styles.voucherValue}>
+                      (-{formatPrice(appliedVoucher.value)})
+                    </span>
+                  </div>
+                )}
+
                 <div className={`${styles["price-pay"]} ${styles.price}`}>
                   <p>Tổng số tiền (gồm VAT)</p>
-                  <strong>{formatPrice(totalPrice)}</strong>
+                  <strong className={styles.colorPrice}>
+                    {formatPrice(finalPrice)}
+                  </strong>{" "}
+                  {/* ✅ Giá sau khi áp dụng mã */}
                 </div>
                 <button
                   className={`${styles.btn} ${styles["btn-pay-color"]}`}
                   onClick={handlePay}
+                ></button>
+                <button
+                  className={`${styles.btn} ${styles["btn-pay-color"]}`}
+                  onClick={handleCheckout}
                 >
                   THANH TOÁN
                 </button>
@@ -234,6 +276,56 @@ const ShoppingCartPage = () => {
             </div>
           </div>
         </div>
+        {showPromoPopup && (
+          <div className={styles.overlay}>
+            <div className={styles.voucherModal}>
+              <div className={styles.voucherHeader}>
+                <span>Khuyến mãi áp dụng</span>
+                <button onClick={() => setShowPromoPopup(false)}>×</button>
+              </div>
+
+              <div className={styles.voucherList}>
+                {vouchers.map((voucher) => {
+                  const isApplied = appliedVoucher?.id === voucher.id;
+                  const isEligible = totalPrice >= voucher.min;
+
+                  return (
+                    <div key={voucher.id} className={styles.voucherCard}>
+                      <div className={styles.voucherLeft}>
+                        <div className={styles.voucherCode}>{voucher.code}</div>
+                        <div className={styles.voucherDesc}>
+                          Đơn hàng từ {voucher.min.toLocaleString()} đ - Không
+                          áp dụng Ngoại Văn, Manga
+                        </div>
+                        <div className={styles.voucherDate}>
+                          HSD: 31/07/2025
+                        </div>
+                      </div>
+                      <div className={styles.voucherRight}>
+                        {isApplied ? (
+                          <button className={styles.applyBtn} disabled>
+                            Đã áp dụng
+                          </button>
+                        ) : (
+                          <button
+                            className={styles.applyBtn}
+                            disabled={!isEligible}
+                            onClick={() => {
+                              setAppliedVoucher(voucher);
+                              setShowPromoPopup(false); // ẩn popup sau khi chọn
+                            }}
+                          >
+                            Áp dụng
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );

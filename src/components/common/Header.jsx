@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+
 import { useNavigate } from "react-router-dom";
+import { CartContext } from "../../contexts/CartContext.jsx";
 import "./Header.css";
 
 const Header = () => {
   const [query, setQuery] = useState(""); // Lưu từ khóa tìm kiếm
   const navigate = useNavigate(); // Dùng để chuyển trang
-
+  const { cartItems } = useContext(CartContext);
+  const totalItems = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
   const handleSearch = () => {
     navigate(`/search${query.trim() ? `?q=${encodeURIComponent(query)}` : ""}`);
     window.scrollTo(0, 0);
@@ -49,14 +55,13 @@ const Header = () => {
         <div className="header__main__info">
           <div
             className="header__main__shoppingCard"
-            onClick={() => {
-              navigate("/cart");
-              window.scrollTo(0, 0);
-            }}
-            style={{ cursor: "pointer" }} // để hiện icon tay khi rê chuột
+            onClick={() => navigate("/cart")}
           >
-            <div className="icon">
+            <div className="icon" style={{ position: "relative" }}>
               <i className="fa-solid fa-cart-shopping"></i>
+              {totalItems > 0 && (
+                <span className="cart-badge">{totalItems}</span>
+              )}
             </div>
             <div className="text">Giỏ Hàng</div>
           </div>
