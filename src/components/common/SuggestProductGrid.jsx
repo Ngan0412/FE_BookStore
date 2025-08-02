@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
 import styles from "./SuggestProductGrid.module.css"; // bạn có thể tạo file CSS tương ứng
 import { Link } from "react-router-dom";
+
 const formatPrice = (price) => {
   return price.toLocaleString("vi-VN", {
     style: "currency",
@@ -10,23 +10,16 @@ const formatPrice = (price) => {
   });
 };
 
-const BookList = () => {
+const BookSuggestions = ({ productsChatBot }) => {
   const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(true);
-
   useEffect(() => {
-    axios
-      .get("https://localhost:7226/api/Book/getAll")
-      .then((res) => {
-        setBooks(res.data.slice(0, 10));
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Lỗi khi gọi API: ", err);
-        setLoading(false);
-      });
-  }, []);
-  if (loading) return <p style={{ padding: "20px" }}> Đang tải dữ liệu ...</p>;
+    if (Array.isArray(productsChatBot)) {
+      setBooks(productsChatBot.slice(0, 10));
+    }
+  }, [productsChatBot]); // ✅ chỉ gọi khi productsChatBot thay đổi
+
+  if (!books.length) return null;
+
   return (
     <div className={styles["booklist"]}>
       <div className={styles["main-book"]}>
@@ -81,4 +74,4 @@ const BookList = () => {
   );
 };
 
-export default BookList;
+export default BookSuggestions;

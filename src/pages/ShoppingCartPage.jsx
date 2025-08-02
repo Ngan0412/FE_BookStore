@@ -262,7 +262,10 @@ const ShoppingCartPage = () => {
                   </strong>{" "}
                   {/* ✅ Giá sau khi áp dụng mã */}
                 </div>
-
+                <button
+                  className={`${styles.btn} ${styles["btn-pay-color"]}`}
+                  onClick={handlePay}
+                ></button>
                 <button
                   className={`${styles.btn} ${styles["btn-pay-color"]}`}
                   onClick={handleCheckout}
@@ -327,5 +330,23 @@ const ShoppingCartPage = () => {
     </main>
   );
 };
+const handlePay = async () => {
+  try {
+    const response = await fetch("https://localhost:7226/api/Order/pay/", {
+      method: "POST",
+    });
 
+    const data = await response.json();
+
+    if (data.payUrl) {
+      // Redirect người dùng sang giao diện Momo
+      window.location.href = data.payUrl;
+    } else {
+      alert("Không nhận được URL thanh toán từ server.");
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API thanh toán:", error);
+    alert("Gọi API thất bại");
+  }
+};
 export default ShoppingCartPage;
