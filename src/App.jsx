@@ -12,7 +12,8 @@ import RegisterForm from "./pages/SignUpPage.jsx";
 import LoginPage from "./pages/LogInPage.jsx";
 import ForgotPasswordPage from "./pages/ForGotPWPage.jsx";
 import CheckoutPage from "./pages/CheckOutPage.jsx";
-
+import OrderPage from "./pages/delivery.jsx";
+import AccountInfoPage from "./pages/AccountInfor.jsx";
 function App() {
   return (
     <Router>
@@ -28,6 +29,8 @@ function App() {
             <Route path="/forgot" element={<ForgotPasswordPage />} />
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/orders" element={<OrderPage />} />
+            <Route path="/infor" element={<AccountInfoPage />} />
           </Routes>
         </main>
         <Footer />
