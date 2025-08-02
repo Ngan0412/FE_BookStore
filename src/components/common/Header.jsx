@@ -1,17 +1,26 @@
 import React, { useState, useContext } from "react";
-
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../contexts/CartContext.jsx";
+import { UserContext } from "../../contexts/UserContext.jsx";
 import "./Header.css";
 
 const Header = () => {
-  const [query, setQuery] = useState(""); // Lưu từ khóa tìm kiếm
-  const navigate = useNavigate(); // Dùng để chuyển trang
+  const [query, setQuery] = useState("");
+  // const [user, setUser] = useState(null); // ✅ Lưu user nếu đã đăng nhập
+  const { user, logout } = useContext(UserContext);
+  const navigate = useNavigate();
   const { cartItems } = useContext(CartContext);
+
   const totalItems = cartItems.reduce(
     (total, item) => total + item.quantity,
     0
   );
+
+  const handleLogout = () => {
+    logout(); // dùng hàm logout từ UserContext
+    navigate("/login");
+  };
+
   const handleSearch = () => {
     navigate(`/search${query.trim() ? `?q=${encodeURIComponent(query)}` : ""}`);
     window.scrollTo(0, 0);
@@ -45,7 +54,7 @@ const Header = () => {
             placeholder="Tìm kiếm sách..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={handleKeyDown} // Bấm Enter để tìm
+            onKeyDown={handleKeyDown}
           />
           <button className="btn btn-search" onClick={handleSearch}>
             <i className="fa-solid fa-magnifying-glass"></i>
@@ -74,16 +83,41 @@ const Header = () => {
 
             {/* Dropdown khi hover */}
             <div className="login-dropdown">
-              <button className="login-btn" onClick={() => navigate("/login")}>
-                Đăng nhập
-              </button>
+              {user ? (
+                <>
+                  <button
+                    className="info-btn"
+                    onClick={() => navigate("/profile")}
+                  >
+                    Thông tin khách hàng
+                  </button>
+                  <button
+                    className="info-btn"
+                    onClick={() => navigate("/orders")}
+                  >
+                    Đơn hàng của tôi
+                  </button>
+                  <button className="info-btn" onClick={handleLogout}>
+                    Đăng xuất
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className="login-btn"
+                    onClick={() => navigate("/login")}
+                  >
+                    Đăng nhập
+                  </button>
 
-              <button
-                className="register-btn"
-                onClick={() => navigate("/register")}
-              >
-                Đăng ký
-              </button>
+                  <button
+                    className="register-btn"
+                    onClick={() => navigate("/register")}
+                  >
+                    Đăng ký
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>

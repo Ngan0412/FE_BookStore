@@ -1,22 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { UserContext } from "../contexts/UserContext.jsx";
 import "./LoginPage.css"; // CSS chuyển từ login.css nếu có
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import axios from "axios";
 const LoginPage = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
+
+  const { login } = useContext(UserContext); // 🟢 Dùng login từ context
+
   const [formData, setFormData] = useState({
-    email: "",
+    phone: "",
     password: "",
   });
-  const navigate = useNavigate();
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-  };
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault(); // ✅ Ngăn chặn reload trang
-    alert("Đăng nhập với: " + formData.email);
-    navigate("/"); // ✅ Điều hướng về trang Home
+    try {
+      const response = await axios.post(
+        "https://localhost:7221/api/UserCustomers/login",
+        {
+          phone: formData.Phone,
+          password: formData.password,
+        }
+      );
+
+      // ✅ Nếu đăng nhập thành công
+      const userData = response.data;
+      console.log("✅ Đăng nhập thành công:", userData);
+
+      // Lưu token hoặc thông tin người dùng nếu cần
+      login(userData);
+      // Chuyển hướng về trang chủ
+      navigate("/");
+    } catch (error) {
+      console.error("Lỗi đăng nhập:", error);
+
+      if (error.response && error.response.data) {
+        alert(`❌ Lỗi: ${error.response.data.message || "Đăng nhập thất bại"}`);
+      } else {
+        alert("❌ Đã xảy ra lỗi khi đăng nhập.");
+      }
+    }
   };
 
   return (
@@ -24,14 +55,12 @@ const LoginPage = () => {
       <form className="login-form" onSubmit={handleSubmit}>
         <h2>Đăng Nhập</h2>
         <div className="form-group">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">Số điện thoại</label>
           <input
-            type="email"
-            id="email"
-            placeholder="Nhập email"
-            value={formData.email}
+            id="Phone"
+            placeholder="Nhập SĐT"
+            value={formData.Phone}
             onChange={handleChange}
-            required
           />
         </div>
         <div className="form-group">
@@ -42,7 +71,6 @@ const LoginPage = () => {
             placeholder="Nhập mật khẩu"
             value={formData.password}
             onChange={handleChange}
-            required
           />
         </div>
         <button type="submit" className="login-button">

@@ -123,6 +123,7 @@
 }
 
 /* Nút đăng nhập / đăng ký */
+.info-btn,
 .login-btn,
 .register-btn {
   padding: 10px 15px;
@@ -136,7 +137,12 @@
   width: 100%;
   text-align: center;
 }
+
 .login-btn:hover,
 .register-btn:hover {
+  background-color: rgb(75, 130, 50);
+}
+.info-btn {
+  width: 220px;
   background-color: rgb(75, 130, 50);
 }

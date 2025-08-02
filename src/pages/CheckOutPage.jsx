@@ -11,12 +11,14 @@ const CheckoutPage = () => {
 
   const [paymentMethod, setPaymentMethod] = useState("COD"); // mặc định: thanh toán khi nhận hàng
   const [checkoutItems, setCheckoutItems] = useState([]);
-
+  const [promotion, setPromotions] = useState([]);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    const storedItems = JSON.parse(localStorage.getItem("checkoutItems")) || [];
+    const storedItems = JSON.parse(localStorage.getItem("cart")) || [];
+    const storedPromotion = JSON.parse(localStorage.getItem("promotion")) || [];
     setCheckoutItems(storedItems);
+    setPromotions(storedPromotion);
   }, []);
 
   const handleInputChange = (e) => {
@@ -24,15 +26,67 @@ const CheckoutPage = () => {
     setCustomer((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handlePlaceOrder = (e) => {
+  const handlePlaceOrder = async (e) => {
     e.preventDefault();
-    alert(
-      "Đặt hàng thành công!\n" +
-        `Tên: ${customer.name}\n` +
-        `SĐT: ${customer.phone}\n` +
-        `Địa chỉ: ${customer.address}\n` +
-        `Phương thức: ${paymentMethod}`
-    );
+    if (!customer.name) {
+      alert("Vui lòng nhập tên khách hàng.");
+      return;
+    }
+    if (!customer.phone) {
+      alert("Vui lòng nhập số điện thoại.");
+      return;
+    }
+
+    const phoneRegex = /^(0[3|5|7|8|9])[0-9]{8}$/;
+    if (!phoneRegex.test(customer.phone)) {
+      alert(
+        "Số điện thoại không hợp lệ. Vui lòng nhập đúng định dạng Việt Nam."
+      );
+      return;
+    }
+    if (!customer.name) {
+      alert("Vui lòng nhập địa chỉ.");
+      return;
+    }
+    if (paymentMethod == "Momo") {
+      try {
+        const amount = checkoutItems.reduce(
+          (sum, item) =>
+            sum +
+            item.quantity *
+              item.price *
+              (promotion ? 1 - promotion.discountPercent : 1),
+          0
+        );
+        // const amount = 10000;
+        const response = await fetch(
+          `https://localhost:7221/api/UserOrders/pay/${amount}`,
+          {
+            method: "POST",
+          }
+        );
+
+        const data = await response.json();
+
+        if (data.payUrl) {
+          // Redirect người dùng sang giao diện Momo
+          window.open(data.payUrl, "_blank");
+        } else {
+          alert("Không nhận được URL thanh toán từ server.");
+        }
+      } catch (error) {
+        console.error("Lỗi khi gọi API thanh toán:", error);
+        alert("Gọi API thất bại");
+      }
+    } else {
+      alert(
+        "Đặt hàng thành công!\n" +
+          `Tên: ${customer.name}\n` +
+          `SĐT: ${customer.phone}\n` +
+          `Địa chỉ: ${customer.address}\n` +
+          `Phương thức: ${paymentMethod}`
+      );
+    }
   };
 
   return (
@@ -88,21 +142,11 @@ const CheckoutPage = () => {
             <input
               type="radio"
               name="payment"
-              value="ShopeePay"
-              checked={paymentMethod === "ShopeePay"}
+              value="Momo"
+              checked={paymentMethod === "Momo"}
               onChange={(e) => setPaymentMethod(e.target.value)}
             />
-            Ví điện tử ShopeePay
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="payment"
-              value="Bank"
-              checked={paymentMethod === "Bank"}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            />
-            Thẻ ngân hàng nội địa
+            Ví điện tử Momo
           </label>
         </div>
       </section>
@@ -113,13 +157,21 @@ const CheckoutPage = () => {
         <div className="order-summary">
           {checkoutItems.map((item) => (
             <div className="item" key={item.id}>
-              <img src={item.image} alt={item.title} />
+              <img
+                src={`https://localhost:7221/${item.image}`}
+                alt={item.title}
+              />
               <div className="info">
                 <p>{item.title}</p>
                 <span>x{item.quantity}</span>
               </div>
               <strong>
-                {(item.price * 0.8 * item.quantity).toLocaleString("vi-VN")}₫
+                {(
+                  item.price *
+                  item.quantity *
+                  (promotion ? 1 - promotion.discountPercent : 1)
+                ).toLocaleString("vi-VN")}
+                ₫
               </strong>
             </div>
           ))}
@@ -128,7 +180,11 @@ const CheckoutPage = () => {
             <strong>
               {checkoutItems
                 .reduce(
-                  (sum, item) => sum + item.quantity * item.price * 0.8,
+                  (sum, item) =>
+                    sum +
+                    item.quantity *
+                      item.price *
+                      (promotion ? 1 - promotion.discountPercent : 1),
                   0
                 )
                 .toLocaleString("vi-VN")}

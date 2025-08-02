@@ -30,7 +30,9 @@ const ProductSearchPage = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get("https://localhost:7226/api/Category");
+        const res = await axios.get(
+          "https://localhost:7221/api/UserCategories"
+        );
         setCategories(res.data);
       } catch (error) {
         console.error("Lỗi khi lấy danh mục:", error);
@@ -42,7 +44,7 @@ const ProductSearchPage = () => {
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const res = await axios.get("https://localhost:7226/api/Author");
+        const res = await axios.get("https://localhost:7221/api/UaerAuthors");
         setAuthor(res.data);
       } catch (error) {
         console.error("Lỗi khi lấy tác giả:", error);
@@ -54,7 +56,9 @@ const ProductSearchPage = () => {
   useEffect(() => {
     const fetchPublisher = async () => {
       try {
-        const res = await axios.get("https://localhost:7226/api/Publisher");
+        const res = await axios.get(
+          "https://localhost:7221/api/UserPublishers"
+        );
         setPublisher(res.data);
       } catch (error) {
         console.error("Lỗi khi lấy nhà xuất bản:", error);
@@ -67,7 +71,7 @@ const ProductSearchPage = () => {
     const fetchBooks = async () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
       try {
-        const res = await axios.get("https://localhost:7226/api/Book/getAll");
+        const res = await axios.get("https://localhost:7221/api/UserBooks");
         const allBooks = res.data;
         console.log("📦 Dữ liệu trả về:", allBooks);
 
@@ -120,16 +124,6 @@ const ProductSearchPage = () => {
     selectedPublisher,
     selectedPriceRanges,
   ]);
-
-  const baseUrl = "http://localhost:5173";
-  // Hàm xử lý ảnh
-  const resolveImageUrl = (imagePath) => {
-    if (!imagePath) return "/styles/img/tamly.webp"; // Ảnh mặc định nếu không có ảnh
-    if (imagePath.startsWith("http")) return imagePath; // Nếu ảnh là URL đầy đủ thì dùng luôn
-    return `${baseUrl}${
-      imagePath.startsWith("/") ? imagePath : "/" + imagePath
-    }`; // Ghép baseUrl với ảnh
-  };
 
   return (
     <div className={styles["main-content"]}>
@@ -260,7 +254,7 @@ const ProductSearchPage = () => {
                       style={{ textDecoration: "none", color: "inherit" }}
                     >
                       <img
-                        src={resolveImageUrl(book.image)}
+                        src={`https://localhost:7221/${book.image}`}
                         alt={book.title}
                         className={styles["listBook"]}
                       />

@@ -28,7 +28,7 @@ const CategorySection = () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     axios
-      .get("https://localhost:7226/api/Category")
+      .get("https://localhost:7221/api/UserCategories")
       .then((res) => {
         setCategories(res.data);
         setLoading(false);
@@ -42,7 +42,7 @@ const CategorySection = () => {
     setSelectedCategory(category.name);
     axios
       .get(
-        `https://localhost:7226/api/Book/GetByCategory?categoryId=${category.id}`
+        `https://localhost:7221/api/UserBooks/GetByCategory?categoryId=${category.id}`
       )
       .then((res) => {
         setBooks(res.data);
@@ -106,7 +106,11 @@ const CategorySection = () => {
                       style={{ textDecoration: "none", color: "inherit" }}
                     >
                       <img
-                        src={book.image || "/styles/img/default_book.webp"}
+                        src={
+                          book.image
+                            ? `https://localhost:7221/${book.image}`
+                            : "/styles/img/default_book.webp"
+                        }
                         alt={book.title}
                         style={{
                           width: "80%",

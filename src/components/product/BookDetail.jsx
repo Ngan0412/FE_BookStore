@@ -18,7 +18,7 @@ const BookDetailPage = () => {
 
     // Lấy chi tiết sách
     axios
-      .get(`https://localhost:7226/api/Book/${bookId}`)
+      .get(`https://localhost:7221/api/UserBooks/${bookId}`)
       .then((res) => {
         setBook(res.data);
         setLoading(false);
@@ -30,7 +30,7 @@ const BookDetailPage = () => {
 
     // Lấy tất cả sách để lọc sách liên quan
     axios
-      .get("https://localhost:7226/api/Book/getAll")
+      .get(`https://localhost:7221/api/UserBooks/GetRelated?bookId=${bookId}`)
       .then((res) => {
         setAllBooks(res.data);
       })
@@ -68,7 +68,11 @@ const BookDetailPage = () => {
         <div className="main-detail__item">
           {/* LEFT */}
           <div className="main-detail__item__left">
-            <img src={book.image} alt={book.title} className="book" />
+            <img
+              src={`https://localhost:7221/${book.image}`}
+              alt={book.title}
+              className="book"
+            />
             <div className="btn-detail">
               <button className="btn btn__themvaogio" onClick={handleAddToCart}>
                 <div className="icon icon__giohang">
@@ -94,13 +98,13 @@ const BookDetailPage = () => {
                 <p>
                   Nhà xuất bản:{" "}
                   <span className="common-bold">
-                    {book.publisher || "Đang cập nhật"}
+                    {book.publisherName || "Đang cập nhật"}
                   </span>
                 </p>
                 <p>
                   Tác giả:{" "}
                   <span className="common-bold">
-                    {book.author || "Đang cập nhật"}
+                    {book.authorName || "Đang cập nhật"}
                   </span>
                 </p>
               </div>
@@ -119,15 +123,15 @@ const BookDetailPage = () => {
               <div className="product-info">
                 <h2>Thông tin chi tiết</h2>
                 <div className="info-row">
-                  <span className="label">Mã hàng:</span> {book.id}
+                  <span className="label">Mã hàng:</span> {book.isbn}
                 </div>
                 <div className="info-row">
                   <span className="label">NXB:</span>{" "}
-                  {book.publisher || "Đang cập nhật"}
+                  {book.publisherName || "Đang cập nhật"}
                 </div>
                 <div className="info-row">
                   <span className="label">Tác giả:</span>{" "}
-                  {book.author || "Đang cập nhật"}
+                  {book.authorName || "Đang cập nhật"}
                 </div>
               </div>
             </div>

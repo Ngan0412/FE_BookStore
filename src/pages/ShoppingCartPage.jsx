@@ -12,15 +12,11 @@ const ShoppingCartPage = () => {
   const [selectAll, setSelectAll] = useState(true); // mặc định đã chọn tất cả
   const [showPromoPopup, setShowPromoPopup] = useState(false);
   const [appliedVoucher, setAppliedVoucher] = useState(null);
-
+  const [vouchers, setVouchers] = useState([]);
   const handleCheckout = () => {
-    const selectedProducts = cartItems.filter((item) =>
-      selectedItems.includes(item.id)
-    );
-    localStorage.setItem("checkoutItems", JSON.stringify(selectedProducts));
+    localStorage.setItem("promotion", JSON.stringify(activeVoucher));
     navigate("/checkout");
   };
-
   const handleSelectAll = (e) => {
     if (e.target.checked) {
       setSelectedItems(cartItems.map((item) => item.id));
@@ -41,29 +37,31 @@ const ShoppingCartPage = () => {
     // Cập nhật selectAll
     setSelectAll(updatedSelectedItems.length === cartItems.length);
   };
+  useEffect(() => {
+    const fetchVouchers = async () => {
+      try {
+        const response = await fetch(
+          "https://localhost:7221/api/UserPromotions"
+        );
 
-  const totalPrice = cartItems.reduce((sum, item) => {
-    if (selectedItems.includes(item.id)) {
-      return sum + item.quantity * item.price * 0.8;
-    }
-    return sum;
-  }, 0);
-  const finalPrice = Math.max(totalPrice - (appliedVoucher?.value || 0), 0);
+        if (!response.ok) {
+          throw new Error("Lỗi khi gọi API");
+        }
+
+        const data = await response.json();
+        setVouchers(data);
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu voucher:", error);
+      }
+    };
+    fetchVouchers();
+  }, []);
 
   // const [quantity, setQuantity] = useState(1);
   useEffect(() => {
     // mỗi khi cartItems thay đổi thì chọn tất cả mặc định
     setSelectedItems(cartItems.map((item) => item.id));
   }, [cartItems]);
-
-  const formatPrice = (price) => {
-    return price.toLocaleString("vi-VN") + " đ";
-  };
-  const handleIncrease = (index) => {
-    const updatedCart = [...cartItems];
-    updatedCart[index].quantity += 1;
-    setCartItems(updatedCart); // context sẽ lo lưu localStorage
-  };
 
   const handleDecrease = (index) => {
     const updatedCart = [...cartItems];
@@ -72,12 +70,6 @@ const ShoppingCartPage = () => {
       setCartItems(updatedCart);
     }
   };
-  const vouchers = [
-    { id: 1, code: "Giảm 10K", value: 10000, min: 130000 },
-    { id: 2, code: "Giảm 15K", value: 15000, min: 200000 },
-    { id: 3, code: "Giảm 20K", value: 20000, min: 300000 },
-  ];
-
   const handleDelete = (index) => {
     const updatedCart = [...cartItems];
     const removedItem = updatedCart.splice(index, 1)[0];
@@ -90,7 +82,27 @@ const ShoppingCartPage = () => {
       selectedItems.length === cartItems.length && cartItems.length > 0
     );
   }, [selectedItems, cartItems]);
-
+  const totalPrice = cartItems.reduce((sum, item) => {
+    if (selectedItems.includes(item.id)) {
+      return sum + item.quantity * item.price;
+    }
+    return sum;
+  }, 0);
+  const handleIncrease = (index) => {
+    const updatedCart = [...cartItems];
+    updatedCart[index].quantity += 1;
+    setCartItems(updatedCart); // context sẽ lo lưu localStorage
+  };
+  const activeVoucher =
+    appliedVoucher || vouchers.find((v) => totalPrice >= v.condition) || null;
+  const formatPrice = (price) => {
+    if (typeof price !== "number" || isNaN(price)) return "0 đ";
+    return price.toLocaleString("vi-VN") + " đ";
+  };
+  const finalPrice = Math.max(
+    totalPrice * (activeVoucher ? 1 - activeVoucher.discountPercent : 1),
+    0
+  );
   return (
     <main>
       {/* giỏ hàng */}
@@ -138,7 +150,7 @@ const ShoppingCartPage = () => {
 
                   <div className={styles["info-bookCart"]}>
                     <img
-                      src={item.image}
+                      src={`https://localhost:7221/${item.image}`}
                       alt={item.title}
                       className={styles.book}
                     />
@@ -149,7 +161,13 @@ const ShoppingCartPage = () => {
                           className={`${styles.price__book__new} ${styles["color-new"]}`}
                         >
                           <p className={styles.price}>
-                            {formatPrice(item.price * 0.8)}
+                            {formatPrice(
+                              activeVoucher
+                                ? item.price *
+                                    item.quantity *
+                                    (1 - activeVoucher.discountPercent)
+                                : item.price * item.quantity
+                            )}
                           </p>
                         </div>
                         <div className={styles.price__book__old}>
@@ -186,7 +204,13 @@ const ShoppingCartPage = () => {
 
                   <div className={styles.price__book__new}>
                     <p className={styles.price}>
-                      {formatPrice(item.price * 0.8 * item.quantity)}
+                      {formatPrice(
+                        activeVoucher
+                          ? item.price *
+                              item.quantity *
+                              (1 - activeVoucher.discountPercent)
+                          : item.price * item.quantity
+                      )}
                     </p>
                   </div>
 
@@ -215,17 +239,25 @@ const ShoppingCartPage = () => {
                 </div>
 
                 <div className={styles["text-discount"]}>
-                  <p className={styles["text-discount__item"]}>
-                    Mã giảm giá 10K cho đơn hàng từ 130K
-                  </p>
-                  <p className={styles["text-discount__item"]}>
-                    Đơn hàng từ 249k áp dụng cho đơn hàng KHÔNG bao gồm giá trị
-                    của các sản phẩm Ngoại Văn, Manga, Phiếu Quà Tặng, Sách Giáo
-                    Khoa
-                  </p>
-                  <p className={styles["text-discount__item"]}>
-                    HSD: 31/07/2025
-                  </p>
+                  {activeVoucher && (
+                    <>
+                      <p className={styles.voucherCode}>{activeVoucher.name}</p>
+                      <p className={styles["text-discount__item"]}>
+                        Mã giảm{" "}
+                        {Math.round(activeVoucher.discountPercent * 100)}%
+                      </p>
+                      <p className={styles["text-discount__item"]}>
+                        Đơn hàng từ {activeVoucher.condition.toLocaleString()}đ
+                        áp dụng cho toàn bộ sản phẩm
+                      </p>
+                      <p className={styles["text-discount__item"]}>
+                        HSD:{" "}
+                        {new Date(activeVoucher.endDate).toLocaleDateString(
+                          "vi-VN"
+                        )}
+                      </p>
+                    </>
+                  )}
                   <button
                     className={`${styles.btn} ${styles["text-discount__item"]}`}
                     onClick={() => navigate("/")}
@@ -236,36 +268,17 @@ const ShoppingCartPage = () => {
               </div>
               <div className={styles["main-pay"]}>
                 <div className={`${styles["price-pay"]} ${styles.price}`}>
-                  <p>Thành Tiền</p>
+                  <p>Tổng tiền</p>
                   <strong>{formatPrice(totalPrice)}</strong>{" "}
                   {/* ✅ Sửa lại: dùng totalPrice */}
                 </div>
-
-                {appliedVoucher && (
-                  <div className={styles.appliedVoucherNotice}>
-                    <span className={styles.voucherLabel}>
-                      Mã đang áp dụng:
-                    </span>{" "}
-                    <strong className={styles.voucherCode}>
-                      {appliedVoucher.code}
-                    </strong>{" "}
-                    <span className={styles.voucherValue}>
-                      (-{formatPrice(appliedVoucher.value)})
-                    </span>
-                  </div>
-                )}
-
                 <div className={`${styles["price-pay"]} ${styles.price}`}>
-                  <p>Tổng số tiền (gồm VAT)</p>
+                  <p>Tiền phải trả</p>
                   <strong className={styles.colorPrice}>
                     {formatPrice(finalPrice)}
                   </strong>{" "}
                   {/* ✅ Giá sau khi áp dụng mã */}
                 </div>
-                <button
-                  className={`${styles.btn} ${styles["btn-pay-color"]}`}
-                  onClick={handlePay}
-                ></button>
                 <button
                   className={`${styles.btn} ${styles["btn-pay-color"]}`}
                   onClick={handleCheckout}
@@ -287,18 +300,23 @@ const ShoppingCartPage = () => {
               <div className={styles.voucherList}>
                 {vouchers.map((voucher) => {
                   const isApplied = appliedVoucher?.id === voucher.id;
-                  const isEligible = totalPrice >= voucher.min;
+                  const isEligible = totalPrice >= voucher.condition;
+
+                  const formattedEnd = new Date(
+                    voucher.endDate
+                  ).toLocaleDateString("vi-VN");
 
                   return (
                     <div key={voucher.id} className={styles.voucherCard}>
                       <div className={styles.voucherLeft}>
-                        <div className={styles.voucherCode}>{voucher.code}</div>
+                        <div className={styles.voucherCode}>{voucher.name}</div>
                         <div className={styles.voucherDesc}>
-                          Đơn hàng từ {voucher.min.toLocaleString()} đ - Không
-                          áp dụng Ngoại Văn, Manga
+                          Đơn hàng từ{" "}
+                          {voucher.condition.toLocaleString("vi-VN")} đ – Giảm (
+                          {Math.round(voucher.discountPercent * 100)}%)
                         </div>
                         <div className={styles.voucherDate}>
-                          HSD: 31/07/2025
+                          HSD: {formattedEnd}
                         </div>
                       </div>
                       <div className={styles.voucherRight}>
@@ -312,7 +330,7 @@ const ShoppingCartPage = () => {
                             disabled={!isEligible}
                             onClick={() => {
                               setAppliedVoucher(voucher);
-                              setShowPromoPopup(false); // ẩn popup sau khi chọn
+                              setShowPromoPopup(false);
                             }}
                           >
                             Áp dụng
@@ -330,23 +348,5 @@ const ShoppingCartPage = () => {
     </main>
   );
 };
-const handlePay = async () => {
-  try {
-    const response = await fetch("https://localhost:7226/api/Order/pay/", {
-      method: "POST",
-    });
 
-    const data = await response.json();
-
-    if (data.payUrl) {
-      // Redirect người dùng sang giao diện Momo
-      window.location.href = data.payUrl;
-    } else {
-      alert("Không nhận được URL thanh toán từ server.");
-    }
-  } catch (error) {
-    console.error("Lỗi khi gọi API thanh toán:", error);
-    alert("Gọi API thất bại");
-  }
-};
 export default ShoppingCartPage;

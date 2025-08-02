@@ -163,4 +163,6 @@
 .listBook {
   width: 150px;
   margin: 15px 0;
+  height: 150px;
+  object-fit: cover;
 }

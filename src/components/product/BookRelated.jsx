@@ -25,7 +25,7 @@ const RelatedBooks = ({ relatedBooks }) => {
               className={styles["main-listBook__item__child"]}
             >
               <img
-                src={book.image}
+                src={`https://localhost:7221/${book.image}`}
                 alt={book.title}
                 className={styles["listBook"]}
               />
