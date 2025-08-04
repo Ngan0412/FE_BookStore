@@ -8,7 +8,7 @@ import { UserProvider } from "./contexts/UserProvider.jsx"; // ✅ Đang dùng
 import Header from "./components/common/Header.jsx";
 import Footer from "./components/common/Footer.jsx";
 import HomePage from "./pages/HomePage.jsx";
-import BookDetailPage from "./pages/bookDetailPage.jsx";
+import BookDetailPage from "./pages/BookDetailPage.jsx";
 import ProductSearchPage from "./pages/ProductSearchPage.jsx";
 import CartPage from "./pages/ShoppingCartPage.jsx";
 import RegisterForm from "./pages/SignUpPage.jsx";
@@ -17,6 +17,8 @@ import ForgotPasswordPage from "./pages/ForGotPWPage.jsx";
 import CheckoutPage from "./pages/CheckOutPage.jsx";
 import OrderPage from "./pages/delivery.jsx";
 import AccountInfoPage from "./pages/AccountInfor.jsx";
+import ChangePW from "./pages/ChangePWPage.jsx";
+
 function App() {
   return (
     <UserProvider>
@@ -35,6 +37,9 @@ function App() {
               <Route path="/forgot" element={<ForgotPasswordPage />} />
               <Route path="/register" element={<RegisterForm />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/delivery" element={<OrderPage />} />
+              <Route path="/profile" element={<AccountInfoPage />} />
+              <Route path="/changePassword" element={<ChangePW />} />
             </Routes>
           </main>
           <Footer />

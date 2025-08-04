@@ -4,7 +4,9 @@ import "./CheckOutPage.css";
 
 const CheckoutPage = () => {
   const [customer, setCustomer] = useState({
-    name: "",
+    id: "",
+    familyName: "",
+    givenName: "",
     phone: "",
     address: "",
   });
@@ -17,8 +19,16 @@ const CheckoutPage = () => {
 
     const storedItems = JSON.parse(localStorage.getItem("cart")) || [];
     const storedPromotion = JSON.parse(localStorage.getItem("promotion")) || [];
+    const storedCustomer = JSON.parse(localStorage.getItem("user")) || {
+      id: "",
+      familyName: "",
+      givenName: "",
+      phone: "",
+      address: "",
+    };
     setCheckoutItems(storedItems);
     setPromotions(storedPromotion);
+    setCustomer(storedCustomer);
   }, []);
 
   const handleInputChange = (e) => {
@@ -28,7 +38,7 @@ const CheckoutPage = () => {
 
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
-    if (!customer.name) {
+    if (!customer.givenName || !customer.familyName) {
       alert("Vui lòng nhập tên khách hàng.");
       return;
     }
@@ -44,7 +54,7 @@ const CheckoutPage = () => {
       );
       return;
     }
-    if (!customer.name) {
+    if (!customer.address) {
       alert("Vui lòng nhập địa chỉ.");
       return;
     }
@@ -65,9 +75,7 @@ const CheckoutPage = () => {
             method: "POST",
           }
         );
-
         const data = await response.json();
-
         if (data.payUrl) {
           // Redirect người dùng sang giao diện Momo
           window.open(data.payUrl, "_blank");
@@ -78,14 +86,37 @@ const CheckoutPage = () => {
         console.error("Lỗi khi gọi API thanh toán:", error);
         alert("Gọi API thất bại");
       }
-    } else {
-      alert(
-        "Đặt hàng thành công!\n" +
-          `Tên: ${customer.name}\n` +
-          `SĐT: ${customer.phone}\n` +
-          `Địa chỉ: ${customer.address}\n` +
-          `Phương thức: ${paymentMethod}`
-      );
+    }
+    const orderPayload = {
+      customerId: customer.id,
+      address: customer.address,
+      phone: customer.phone,
+      familyName: customer.familyName,
+      givenName: customer.givenName,
+      promotionId: promotion?.id ?? null,
+      paymentMethod: paymentMethod === "COD" ? "Tiền mặt" : "Chuyển khoản",
+      items: checkoutItems.map((item) => ({
+        bookId: item.id,
+        quantity: item.quantity,
+      })),
+    };
+    try {
+      const res = await fetch("https://localhost:7221/api/UserOrders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderPayload),
+      });
+
+      if (!res.ok) throw new Error("Đặt hàng thất bại");
+      alert("Đặt hàng thành công!");
+      localStorage.removeItem("cart");
+      localStorage.removeItem("promotion");
+      window.location.href = "/delivery";
+    } catch (err) {
+      console.error("Lỗi khi gọi API thanh toán:", err);
+      alert(`Đặt hàng thất bại ${err}. Vui lòng thử lại.`);
     }
   };
 
@@ -99,9 +130,17 @@ const CheckoutPage = () => {
         <form className="customer-info">
           <input
             type="text"
-            placeholder="Họ và tên"
-            name="name"
-            value={customer.name}
+            placeholder="Nhập Họ"
+            name="givenName"
+            value={customer.givenName}
+            onChange={handleInputChange}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Nhập Tên"
+            name="familyName"
+            value={customer.familyName}
             onChange={handleInputChange}
             required
           />

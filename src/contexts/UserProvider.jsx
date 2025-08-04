@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { UserContext } from "./UserContext";
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+
+  // Khôi phục user từ localStorage khi component mount
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
 
   const login = (userData) => {
     setUser(userData);

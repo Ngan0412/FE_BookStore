@@ -47,19 +47,29 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="header__main__search">
-          <input
-            type="text"
-            className="input-search"
-            placeholder="Tìm kiếm sách..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-          />
-          <button className="btn btn-search" onClick={handleSearch}>
-            <i className="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </div>
+        <form
+          autoComplete="off"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearch();
+          }}
+        >
+          <div className="header__main__search">
+            <input
+              type="text"
+              className="input-search"
+              placeholder="Tìm kiếm sách..."
+              value={query}
+              name="search"
+              autoComplete="new-password"
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+            <button type="submit" className="btn btn-search">
+              <i className="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+        </form>
 
         <div className="header__main__info">
           <div
@@ -93,7 +103,7 @@ const Header = () => {
                   </button>
                   <button
                     className="info-btn"
-                    onClick={() => navigate("/orders")}
+                    onClick={() => navigate("/delivery")}
                   >
                     Đơn hàng của tôi
                   </button>
