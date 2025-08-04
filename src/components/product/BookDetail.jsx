@@ -50,7 +50,44 @@ const BookDetailPage = () => {
     navigate("/cart");
     window.scrollTo(0, 0);
   };
+  const handleSubscribe = async () => {
+    const Customer = JSON.parse(localStorage.getItem("user"));
 
+    if (!Customer || !Customer.id) {
+      // Nếu chưa đăng nhập → chuyển tới trang đăng nhập
+      navigate("/login");
+      return;
+    }
+    // Nếu đã đăng nhập → cho nhập email
+    const email = prompt("Nhập email của bạn để nhận khuyến mãi:");
+    if (email) {
+      try {
+        const Customer = JSON.parse(localStorage.getItem("user")) || {};
+        const response = await fetch(
+          `https://localhost:7221/api/UserCustomers/${Customer.id}/get-promotion`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: email,
+            }),
+          }
+        );
+
+        if (response.ok) {
+          alert("Đăng kí thành công!");
+        } else {
+          const error = await response.text();
+          alert("Thất bại: " + error);
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Lỗi khi gọi API");
+      }
+    }
+  };
   if (loading) return <p style={{ padding: "20px" }}>Đang tải dữ liệu...</p>;
   if (!book) return <p style={{ padding: "20px" }}>Không tìm thấy sách!</p>;
   // Lọc sách liên quan
@@ -83,6 +120,7 @@ const BookDetailPage = () => {
               <button className="btn btn__muangay" onClick={handleBuyNow}>
                 Mua Ngay
               </button>
+              <a onClick={handleSubscribe}>Đăng ký nhận khuyến mãi</a>
             </div>
             <div className="detail__title">
               <p className="title">Chính sách ưu đãi</p>
