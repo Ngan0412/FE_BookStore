@@ -6,18 +6,29 @@ import { Link } from "react-router-dom";
 
 const getCategoryImage = (name) => {
   switch (name) {
-    case "Truyện tranh":
-      return "/styles/img/ngoaingu.webp";
-    case "Tiểu thuyết":
+    case "Sách Văn Học Nước Ngoài":
+      return "/styles/img/thieunhi.webp";
+    case "Văn Học":
       return "/styles/img/vanhoc.webp";
-    case "Tâm lý học":
-      return "/styles/img/tamly.webp";
-    case "Giáo dục":
-      return "/styles/img/vanhoc.webp";
-    case "Khoa học":
-      return "/styles/img/vanhoc.webp";
+    case "Sách Kinh Doanh":
+      return "/styles/img/kinhdoanh.jpg";
+    case "Sách Nấu Ăn":
+      return "/styles/img/nau_an.webp";
+    case "Sách Lịch Sử":
+      return "/styles/img/lichsu.webp";
+    case "Tiểu Thuyết":
+      return "/styles/img/tieuthuyet.jpg";
+    case "Truyện cổ tích":
+      return "/styles/img/cotich.webp";
+    case "Truyện Tranh":
+      return "/styles/img/truyentranh.webp";
+    case "Hài Hước":
+      return "/styles/img/haihuoc.webp";
+    case "Sách Làm Đẹp":
+      return "/styles/img/lamdep.webp";
+
     default:
-      return "/styles/img/vanhoc.webp"; // ảnh mặc định
+      return null; // không hiển thị nếu không khớp
   }
 };
 
@@ -32,6 +43,10 @@ const CategorySection = () => {
       .then((res) => {
         setCategories(res.data);
         setLoading(false);
+        if (res.data.length > 0) {
+          // Mặc định chọn danh mục đầu tiên
+          handleCategoryClick(res.data[2]);
+        }
       })
       .catch((err) => {
         console.error("Lỗi khi gọi api thể loại ", err);
@@ -74,7 +89,14 @@ const CategorySection = () => {
                 className={styles["main-category__itemChild"]}
                 key={cat.id}
                 onClick={() => handleCategoryClick(cat)}
-                style={{ cursor: "pointer" }}
+                style={{
+                  cursor: "pointer",
+                  border:
+                    selectedCategory === cat.name
+                      ? "2px solid #007bff"
+                      : "none",
+                  borderRadius: "5px",
+                }}
               >
                 <img
                   src={getCategoryImage(cat.name)}
@@ -113,7 +135,7 @@ const CategorySection = () => {
                         }
                         alt={book.title}
                         style={{
-                          width: "80%",
+                          width: "150px",
                           height: "180px",
                           objectFit: "cover",
                           marginTop: "10px",

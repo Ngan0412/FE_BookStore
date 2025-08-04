@@ -272,6 +272,15 @@ const ShoppingCartPage = () => {
                   <strong>{formatPrice(totalPrice)}</strong>{" "}
                   {/* ✅ Sửa lại: dùng totalPrice */}
                 </div>
+
+                <div className={`${styles["price-pay"]} ${styles.price}`}>
+                  <p>Giảm Giá ({activeVoucher.name} )</p>
+                  <strong className={styles.colorPrice}>
+                    {formatPrice(finalPrice - totalPrice)}
+                  </strong>{" "}
+                  {/* ✅ Giá sau khi áp dụng mã */}
+                </div>
+
                 <div className={`${styles["price-pay"]} ${styles.price}`}>
                   <p>Tiền phải trả</p>
                   <strong className={styles.colorPrice}>
@@ -279,6 +288,7 @@ const ShoppingCartPage = () => {
                   </strong>{" "}
                   {/* ✅ Giá sau khi áp dụng mã */}
                 </div>
+
                 <button
                   className={`${styles.btn} ${styles["btn-pay-color"]}`}
                   onClick={handleCheckout}

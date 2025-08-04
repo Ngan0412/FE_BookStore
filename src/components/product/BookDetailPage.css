@@ -245,8 +245,12 @@ strong {
   margin-right: 5px;
 }
 .title {
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 15px;
+
+  margin-bottom: 10px;
+}
+.detail__title {
+  margin-bottom: 20px;
 }
 .common p {
   margin: 4px 0;

@@ -115,16 +115,33 @@ const BookDetailPage = () => {
                 <div className="icon icon__giohang">
                   <i className="fa-solid fa-cart-shopping"></i>
                 </div>
-                Thêm Vào Giỏ Hàng
+                Thêm Vào <br />
+                Giỏ Hàng
               </button>
               <button className="btn btn__muangay" onClick={handleBuyNow}>
                 Mua Ngay
               </button>
-              <a onClick={handleSubscribe}>Đăng ký nhận khuyến mãi</a>
+              <button className="btn btn__muangay" onClick={handleSubscribe}>
+                Đăng ký nhận khuyến mãi
+              </button>
             </div>
             <div className="detail__title">
-              <p className="title">Chính sách ưu đãi</p>
-              <p>Giao hàng nhanh, đổi trả miễn phí, giá tốt cho khách sỉ.</p>
+              <p className="title">
+                {" "}
+                <strong>Chính sách ưu đãi</strong>
+              </p>
+
+              <p className="title">
+                <strong>Thời gian giao hàng:</strong> Giao nhanh và uy tín{" "}
+              </p>
+              <p className="title">
+                {" "}
+                <strong>Chính sách đổi trả:</strong> Đổi trả miễn phí toàn quốc
+              </p>
+              <p className="title">
+                <strong>Chính sách khách sỉ:</strong> Ưu đãi khi mua số lượng
+                lớn
+              </p>
             </div>
           </div>
 
@@ -170,6 +187,10 @@ const BookDetailPage = () => {
                 <div className="info-row">
                   <span className="label">Tác giả:</span>{" "}
                   {book.authorName || "Đang cập nhật"}
+                </div>
+                <div className="info-row">
+                  <span className="label">Số Lượng:</span>{" "}
+                  {book.quantity || "Đang cập nhật"}
                 </div>
               </div>
             </div>
