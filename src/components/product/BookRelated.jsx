@@ -34,16 +34,22 @@ const RelatedBooks = ({ relatedBooks }) => {
                 <div className={styles["price__book"]}>
                   <div className={styles["price__book__new"]}>
                     <p className={styles["price"]}>
-                      {(book.price * 0.8).toLocaleString()} đ
+                      {(book.price).toLocaleString()} đ
                     </p>
-                    <p className={styles["promotion"]}>20%</p>
+                    {/* <p className={styles["promotion"]}>20%</p> */}
                   </div>
-                  <div className={styles["price__book__old"]}>
+                  <div className={styles["info-row"]}>
+                        <span className={styles["label"]}>
+                          <strong>Số Lượng : </strong>
+                        </span>{" "}
+                        {book.quantity || "Đang cập nhật"}
+                      </div>
+                  {/* <div className={styles["price__book__old"]}>
                     <p className={styles["price"]}>
                       {book.price.toLocaleString()} đ
                     </p>
-                  </div>
-                  <p className={styles["sold"]}>Đã bán {book.sold || 0}</p>
+                  </div> */}
+                  {/* <p className={styles["sold"]}>Đã bán {book.sold || 0}</p> */}
                 </div>
               </div>
             </Link>

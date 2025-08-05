@@ -43,7 +43,7 @@ const CategorySection = () => {
         setLoading(false);
         if (res.data.length > 0) {
           // Mặc định chọn danh mục đầu tiên
-          handleCategoryClick(res.data[2]);
+          handleCategoryClick(res.data[1]);
         }
       })
       .catch((err) => {
@@ -132,6 +132,7 @@ const CategorySection = () => {
                             : "/styles/img/default_book.webp"
                         }
                         alt={book.title}
+                        className={styles["listBook"]}
                         style={{
                           width: "150px",
                           height: "180px",

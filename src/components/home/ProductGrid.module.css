@@ -6,6 +6,7 @@
   display: flex;
   justify-content: center;
   padding-top: 20px;
+  margin-top: 20px;
 
   background-color: #f0f0f0;
 }
@@ -34,8 +35,8 @@
   margin: 10px 10px;
   border-radius: 1px;
   display: grid;
-  grid-template-columns: repeat(5, 240px);
-  grid-template-rows: repeat(2, 330px);
+  grid-template-columns: repeat(6, 230px);
+  grid-template-rows: repeat(2, 310px);
   background-color: #f0f0f0;
   margin-top: 10px;
 }
@@ -45,7 +46,7 @@
   margin: 3px 3px;
   gap: 10px;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   padding: 10px 0;
   border-radius: 2px;
   box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.03);
@@ -53,6 +54,7 @@
 .item__child__title {
   font-size: 16px;
   margin: 5px 5px;
+ 
 }
 .main-listBook__item__child:hover {
   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.09);
@@ -60,6 +62,10 @@
 }
 .title__book {
   color: #000;
+  min-height: 30px;
+   
+
+  
 }
 .title {
   font-weight: bold;
@@ -71,13 +77,17 @@
   display: flex;
   flex-direction: column;
   margin: 10px 0;
+    text-align: start;
+    
+
+
   /* align-items: center; */
   color: #c92127;
   font-size: 17px;
   font-weight: bold;
 }
 .price__book__old {
-  margin: 10px 0;
+  margin: 15px 0;
   color: #8c8f90;
   font-size: 15px;
   text-decoration: line-through;
@@ -124,9 +134,10 @@
 }
 .listBook {
   width: 150px;
-  margin: 15px 0;
+  margin: 15px auto;
   height: 150px;
   object-fit: cover;
+
 }
 .btn {
   width: 200px;

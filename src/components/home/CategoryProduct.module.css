@@ -16,7 +16,7 @@
   display: flex;
   justify-content: center;
   padding-top: 20px;
-
+margin-top: 20px;
   background-color: #f0f0f0;
 }
 
@@ -36,10 +36,10 @@
   margin: 10px 10px;
   border-radius: 1px;
   display: grid;
-  grid-template-columns: repeat(5, 240px);
+  grid-template-columns: repeat(6, 230px);
   grid-template-rows: repeat(1, 345px);
   background-color: #f0f0f0;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 .main-category__title {
   display: flex;
@@ -48,13 +48,15 @@
 }
 .main-category__item {
   display: flex;
-  padding: 10px;
+  /* padding: 10px; */
   max-width: 100%;
   text-align: center;
 }
 .title {
   font-size: 22px;
   font-weight: bold;
+  margin-top: 10px;
+  
 }
 .main-listBook__item_ {
   display: flex;
@@ -62,13 +64,15 @@
 .icon-child {
   color: rgb(95, 156, 63);
   padding-right: 5px;
+  margin-top: 15px;
 }
 .book {
-  width: 120px;
-  height: 130px;
+  width: 149px;
+  height: 180px;
   margin: 5px auto;
   margin-left: 5px;
   object-fit: cover;
+  padding: 10px;
 }
 .title-book {
   color: #8c8f90;
@@ -76,7 +80,7 @@
   margin: 5px 5px;
 }
 .label {
-  margin-left: 8px;
+  margin-left: 5px;
 }
 .title-book:hover {
   color: rgb(95, 156, 63);
@@ -104,6 +108,7 @@
 .item__child__title {
   font-size: 16px;
   margin: 5px 5px;
+  min-height: 35px;
 }
 .item__child__title:hover {
   font-size: 16px;
@@ -121,8 +126,9 @@
   color: rgb(95, 156, 63);
 }
 .price__book__new {
+  text-align: start;
   display: flex;
-  margin: 0px 10px;
+  margin: 0px 5px;
   margin-bottom: 5px;
   align-items: center;
   color: #c92127;
@@ -178,7 +184,7 @@
 }
 .listBook {
   width: 150px;
-  margin: 15px 0;
+  margin: 15px 20px;
 }
 .btn {
   width: 200px;

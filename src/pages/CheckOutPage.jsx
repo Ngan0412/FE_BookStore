@@ -94,7 +94,7 @@ const CheckoutPage = () => {
       familyName: customer.familyName,
       givenName: customer.givenName,
       promotionId: promotion?.id ?? null,
-      paymentMethod: paymentMethod === "COD" ? "Tiền mặt" : "Chuyển khoản",
+      paymentMethod: paymentMethod === "COD" ? "Tiền mặt" : "MoMo",
       items: checkoutItems.map((item) => ({
         bookId: item.id,
         quantity: item.quantity,

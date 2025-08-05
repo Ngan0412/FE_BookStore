@@ -184,7 +184,7 @@ body {
 }
 
 .container {
-  max-width: 800px;
+  max-width: 860px;
   margin: 0 auto;
 }
 
@@ -283,6 +283,7 @@ strong {
   font-size: 17px;
   line-height: 0.2;
   font-weight: bold;
+  margin: 20px 0;
 }
 .price__book__old {
   color: #8c8f90;
