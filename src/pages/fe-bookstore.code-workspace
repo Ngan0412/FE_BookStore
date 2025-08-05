@@ -1,0 +1,25 @@
+{
+  "folders": [
+	{
+		"path": "../.."
+	},
+	{
+		"path": "../../../../Fe_BookStore/FE-BookStore"
+	},
+	{
+		"path": "../../../../Fe_BookStore"
+	},
+	{
+		"path": "../../../../giaoDienSach"
+	},
+	{
+		"path": "../../../../practice/practice-code"
+	},
+	{
+		"path": "../../../BookShop-Admin-FrontEnd"
+	}
+],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "FE-BookStore"
+  }
+}

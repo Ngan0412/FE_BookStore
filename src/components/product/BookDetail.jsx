@@ -165,12 +165,12 @@ const BookDetailPage = () => {
               </div>
               <div className="price__book__new">
                 <p className="price price__book">
-                  {(book.price * 0.8).toLocaleString()} đ
-                </p>
-                <p className="price__book__old">
                   {book.price.toLocaleString()} đ
                 </p>
-                <p className="promotion promotion__book">20%</p>
+                {/* <p className="price__book__old">
+                  {book.price.toLocaleString()} đ
+                </p> */}
+                {/* <p className="promotion promotion__book">20%</p> */}
               </div>
             </div>
 

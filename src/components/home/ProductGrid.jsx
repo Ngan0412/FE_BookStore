@@ -65,14 +65,19 @@ const BookList = () => {
                 <div className={styles["title__book"]}>{book.title}</div>
                 <div className={styles["price__book"]}>
                   <div className={styles["price__book__new"]}>
-                    <p className={styles["price"]}>
-                      {formatPrice((book.price * 80) / 100)}
-                    </p>
-                    <p className={styles["promotion"]}>20%</p>
-                  </div>
-                  <div className={styles["price__book__old"]}>
                     <p className={styles["price"]}>{formatPrice(book.price)}</p>
+
+                    {/* <p className={styles["promotion"]}>20%</p> */}
                   </div>
+                  <div className={styles["info-row"]}>
+                    <span className={styles["label"]}>
+                      <strong>Số Lượng : </strong>
+                    </span>{" "}
+                    {book.quantity || "Đang cập nhật"}
+                  </div>
+                  {/* <div className={styles["price__book__old"]}>
+                    <p className={styles["price"]}>{formatPrice(book.price)}</p>
+                  </div> */}
                 </div>
               </div>
             </Link>

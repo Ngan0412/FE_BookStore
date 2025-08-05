@@ -6,8 +6,6 @@ import { Link } from "react-router-dom";
 
 const getCategoryImage = (name) => {
   switch (name) {
-    case "Sách Văn Học Nước Ngoài":
-      return "/styles/img/thieunhi.webp";
     case "Văn Học":
       return "/styles/img/vanhoc.webp";
     case "Sách Kinh Doanh":
@@ -147,9 +145,15 @@ const CategorySection = () => {
                       <p className={styles["price__book__new"]}>
                         {book.price}₫
                       </p>
-                      <p className={styles["price__book__old"]}>
+                      <div className={styles["info-row"]}>
+                        <span className={styles["label"]}>
+                          <strong>Số Lượng : </strong>
+                        </span>{" "}
+                        {book.quantity || "Đang cập nhật"}
+                      </div>
+                      {/* <p className={styles["price__book__old"]}>
                         {book.price}₫
-                      </p>
+                      </p> */}
                     </Link>
                   ))
                 ) : (
