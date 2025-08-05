@@ -274,7 +274,13 @@ const ShoppingCartPage = () => {
                 </div>
 
                 <div className={`${styles["price-pay"]} ${styles.price}`}>
-                  <p>Giảm Giá ({activeVoucher.name} )</p>
+                  <p>
+                    Giảm Giá (
+                    {activeVoucher
+                      ? activeVoucher.name
+                      : "Không có mã giảm giá"}
+                    )
+                  </p>
                   <strong className={styles.colorPrice}>
                     {formatPrice(finalPrice - totalPrice)}
                   </strong>{" "}
