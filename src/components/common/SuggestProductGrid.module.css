@@ -30,7 +30,7 @@
   border-radius: 1px;
   display: grid;
   grid-template-columns: repeat(5, 240px);
-  grid-template-rows: repeat(2, 325px);
+  grid-template-rows: repeat(1, 300px);
   background-color: #f0f0f0;
   margin-top: 10px;
   cursor: pointer;
@@ -57,6 +57,8 @@
 .title__book {
   text-decoration: none;
   color: #000;
+  margin-top: 20px;
+  min-height: 30px;
 }
 
 .title__book:hover {
@@ -93,6 +95,7 @@
 }
 .listBook {
   width: 150px;
+  margin-top: 20px;
 }
 
 .sold {
@@ -138,6 +141,7 @@
 .right__title {
   font-size: 28px;
   font-weight: 540;
+  
 }
 .promotion__book {
   width: 45px;

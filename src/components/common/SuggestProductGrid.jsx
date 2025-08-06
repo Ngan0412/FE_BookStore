@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const formatPrice = (price) => {
   return price.toLocaleString("vi-VN", {
-    style: "currency",
+    style: "decimal",
     currency: "VND",
     minimumFractionDigits: 0,
   });
@@ -48,7 +48,7 @@ const BookSuggestions = ({ productsChatBot }) => {
               className={styles["main-bookSuggestions__item__child"]}
             >
               <img
-                src={book.image}
+                src={`https://localhost:7221/${book.image}`}
                 alt={book.title}
                 className={styles["listBook"]}
               />
@@ -56,15 +56,13 @@ const BookSuggestions = ({ productsChatBot }) => {
                 <div className={styles["title__book"]}>{book.title}</div>
                 <div className={styles["price__book"]}>
                   <div className={styles["price__book__new"]}>
-                    <p className={styles["price"]}>{formatPrice(book.price)}</p>
-                    <div className={styles["info-row"]}>
-                      <span className={styles["label"]}>
-                        <strong>Số Lượng : </strong>
-                      </span>{" "}
-                      {book.quantity || "Đang cập nhật"}
-                    </div>
+                    <p className={styles["price"]}>{formatPrice(Number(book.price))}</p>
+                    {/* <p className={styles["price"]}>{formatPrice(book.price)}</p> */}
+                    
                     {/* <p className={styles["promotion"]}>20%</p> */}
                   </div>
+                  
+                  
                   {/* <div className={styles["price__book__old"]}>
                     <p className={styles["price"]}>{formatPrice(book.price)}</p>
                   </div> */}
