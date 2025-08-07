@@ -10,7 +10,7 @@ const OrderPage = () => {
     const fetchOrders = async () => {
       try {
         const res = await fetch(
-          `https://localhost:7221/api/UserOrders?customerId=${Customer.id}`
+          `http://localhost:5286/api/UserOrders?customerId=${Customer.id}`
         );
         const data = await res.json();
         setOrders(data);
@@ -130,7 +130,7 @@ const OrderPage = () => {
                   {order.bookList.map((book) => (
                     <div className={styles["order-item"]} key={book.id}>
                       <img
-                        src={`https://localhost:7221/${book.image}`}
+                        src={`http://localhost:5286/${book.image}`}
                         alt={`Ảnh bìa ${book.title}`}
                         width={80}
                         height={80}

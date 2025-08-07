@@ -21,7 +21,7 @@ const AccountInfoPage = () => {
     setIsEditing(false);
     try {
       const response = await fetch(
-        `https://localhost:7221/api/UserCustomers/${userInfo.id}`,
+        `http://localhost:5286/api/UserCustomers/${userInfo.id}`,
         {
           method: "PUT",
           headers: {

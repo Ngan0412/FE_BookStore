@@ -18,7 +18,7 @@ const ChangePWPage = () => {
     try {
       const Customer = JSON.parse(localStorage.getItem("user")) || {};
       const response = await fetch(
-        `https://localhost:7221/api/UserCustomers/${Customer.id}/change-password`,
+        `http://localhost:5286/api/UserCustomers/${Customer.id}/change-password`,
         {
           method: "PUT",
           headers: {

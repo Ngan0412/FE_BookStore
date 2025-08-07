@@ -70,7 +70,7 @@ const CheckoutPage = () => {
         );
         // const amount = 10000;
         const response = await fetch(
-          `https://localhost:7221/api/UserOrders/pay/${amount}`,
+          `http://localhost:5286/api/UserOrders/pay/${amount}`,
           {
             method: "POST",
           }
@@ -101,7 +101,7 @@ const CheckoutPage = () => {
       })),
     };
     try {
-      const res = await fetch("https://localhost:7221/api/UserOrders", {
+      const res = await fetch("http://localhost:5286/api/UserOrders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -197,7 +197,7 @@ const CheckoutPage = () => {
           {checkoutItems.map((item) => (
             <div className="item" key={item.id}>
               <img
-                src={`https://localhost:7221/${item.image}`}
+                src={`http://localhost:5286/${item.image}`}
                 alt={item.title}
               />
               <div className="info">

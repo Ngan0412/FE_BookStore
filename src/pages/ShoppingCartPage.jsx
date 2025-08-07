@@ -41,7 +41,7 @@ const ShoppingCartPage = () => {
     const fetchVouchers = async () => {
       try {
         const response = await fetch(
-          "https://localhost:7221/api/UserPromotions"
+          "http://localhost:5286/api/UserPromotions"
         );
 
         if (!response.ok) {
@@ -150,7 +150,7 @@ const ShoppingCartPage = () => {
 
                   <div className={styles["info-bookCart"]}>
                     <img
-                      src={`https://localhost:7221/${item.image}`}
+                      src={`http://localhost:5286/${item.image}`}
                       alt={item.title}
                       className={styles.book}
                     />

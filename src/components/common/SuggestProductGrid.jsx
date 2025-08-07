@@ -48,7 +48,7 @@ const BookSuggestions = ({ productsChatBot }) => {
               className={styles["main-bookSuggestions__item__child"]}
             >
               <img
-                src={`https://localhost:7221/${book.image}`}
+                src={`http://localhost:5286/${book.image}`}
                 alt={book.title}
                 className={styles["listBook"]}
               />

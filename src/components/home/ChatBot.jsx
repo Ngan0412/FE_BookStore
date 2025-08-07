@@ -110,7 +110,7 @@ const ChatBot = ({ setSuggestedProductsFromBot }) => {
                       className="suggestion-card"
                       onClick={() => navigate(`/book/${book.id}`, "_blank")}
                     >
-                      <img   src={`https://localhost:7221/${book.image}`} alt={book.Title} />
+                      <img   src={`http://localhost:5286/${book.image}`} alt={book.Title} />
                       <h4>{book.Title}</h4>
                       <p>{parseInt(book.Price).toLocaleString()} VNĐ</p>
                     </div>
@@ -129,7 +129,7 @@ const ChatBot = ({ setSuggestedProductsFromBot }) => {
                       className="suggestion-card"
                        onClick={() => window.open(`/book/${book.id}`, "_blank")}
                     >
-                      <img    src={`https://localhost:7221/${book.image}`} alt={book.title} />
+                      <img    src={`http://localhost:5286/${book.image}`} alt={book.title} />
                       <h4>{book.title}</h4>
                       <p>{parseInt(book.price).toLocaleString()} VNĐ</p>
                     </div>

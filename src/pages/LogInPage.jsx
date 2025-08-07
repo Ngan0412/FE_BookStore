@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../contexts/UserContext.jsx";
-import "./LoginPage.css"; // CSS chuyển từ login.css nếu có
+import "./LogInPage.css"; // CSS chuyển từ login.css nếu có
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -24,7 +24,7 @@ const LoginPage = () => {
     e.preventDefault(); // ✅ Ngăn chặn reload trang
     try {
       const response = await axios.post(
-        "https://localhost:7221/api/UserCustomers/login",
+        "http://localhost:5286/api/UserCustomers/login",
         {
           phone: formData.Phone,
           password: formData.password,

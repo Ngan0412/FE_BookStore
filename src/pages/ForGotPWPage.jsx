@@ -9,7 +9,7 @@ const ForgotPasswordPage = () => {
 
     try {
       const response = await fetch(
-        "https://localhost:7226/api/Auth/reset-password",
+        "https://localhost:5286/api/Auth/reset-password",
         {
           method: "POST",
           headers: {
