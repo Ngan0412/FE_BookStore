@@ -196,3 +196,9 @@ body {
 .btn-primary:hover {
   background: #d8431f;
 }
+
+.order-info-extra {
+  margin-left: 20px;
+  display: flex;
+  justify-content: space-between;
+}

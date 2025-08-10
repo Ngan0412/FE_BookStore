@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { CartContext } from "../contexts/CartContext.jsx";
+import axios from "axios";
 
 const ShoppingCartPage = () => {
   // State lưu số lượng sản phẩm, giả sử mặc định là 1
@@ -13,9 +14,31 @@ const ShoppingCartPage = () => {
   const [showPromoPopup, setShowPromoPopup] = useState(false);
   const [appliedVoucher, setAppliedVoucher] = useState(null);
   const [vouchers, setVouchers] = useState([]);
-  const handleCheckout = () => {
-    localStorage.setItem("promotion", JSON.stringify(activeVoucher));
-    navigate("/checkout");
+  const handleCheckout = async () => {
+    if (finalPrice <= 0) return;
+
+    try {
+      // Duyệt qua cartItems để kiểm tra tồn kho từng sách
+      for (const item of cartItems) {
+        const res = await axios.get(
+          `http://localhost:5286/api/UserBooks/${item.id}`
+        );
+        const stockQuantity = res.data.quantity; // giả sử api trả về trường này
+
+        if (item.quantity > stockQuantity) {
+          alert(
+            `Sản phẩm ${item.title} chỉ còn ${stockQuantity} trong kho. Vui lòng giảm số lượng.`
+          );
+          return; // dừng xử lý
+        }
+      }
+      // Nếu tất cả đủ tồn kho mới lưu voucher và chuyển trang checkout
+      localStorage.setItem("promotion", JSON.stringify(activeVoucher));
+      navigate("/checkout");
+    } catch (error) {
+      console.error("Lỗi kiểm tra tồn kho:", error);
+      alert("Có lỗi xảy ra khi kiểm tra tồn kho. Vui lòng thử lại sau.");
+    }
   };
   const handleSelectAll = (e) => {
     if (e.target.checked) {
@@ -68,6 +91,19 @@ const ShoppingCartPage = () => {
     if (updatedCart[index].quantity > 1) {
       updatedCart[index].quantity -= 1;
       setCartItems(updatedCart);
+    }
+  };
+  const handleQuantityChange = (e, itemId) => {
+    const value = e.target.value;
+
+    if (value === "" || /^[0-9]*$/.test(value)) {
+      setCartItems((prevItems) =>
+        prevItems.map((item) =>
+          item.id === itemId
+            ? { ...item, quantity: value === "" ? "" : Number(value) }
+            : item
+        )
+      );
     }
   };
   const handleDelete = (index) => {
@@ -191,7 +227,7 @@ const ShoppingCartPage = () => {
                       type="text"
                       className={styles["quantity-input"]}
                       value={item.quantity}
-                      readOnly
+                      onChange={(e) => handleQuantityChange(e, item.id)} // hoặc key nhận biết item
                     />
                     <button
                       className={styles["quantity-btn"]}

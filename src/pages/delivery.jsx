@@ -125,7 +125,14 @@ const OrderPage = () => {
                   </span>
                   <span className={styles["order-status"]}>{order.status}</span>
                 </div>
-
+                <div className={styles["order-info-extra"]}>
+                  <p>SĐT: {order.customerPhone}</p>
+                  <p>
+                    Ngày đặt:{" "}
+                    {new Date(order.createdTime).toLocaleDateString("vi-VN")}
+                  </p>
+                  <p>Địa chỉ: {order.customerAddress}</p>
+                </div>
                 <div className={styles["order-items"]}>
                   {order.bookList.map((book) => (
                     <div className={styles["order-item"]} key={book.id}>

@@ -15,7 +15,14 @@ const BookDetailPage = () => {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-
+    const storedBooks = JSON.parse(localStorage.getItem("bookIds")) || [];
+    if (!storedBooks.includes(bookId)) {
+      if (storedBooks.length >= 3) {
+        storedBooks.shift(); // xóa sách cũ nhất (ở đầu mảng)
+      }
+      storedBooks.push(bookId);
+      localStorage.setItem("bookIds", JSON.stringify(storedBooks));
+    }
     // Lấy chi tiết sách
     axios
       .get(`http://localhost:5286/api/UserBooks/${bookId}`)

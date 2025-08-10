@@ -30,9 +30,7 @@ const ProductSearchPage = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:5286/api/UserCategories"
-        );
+        const res = await axios.get("http://localhost:5286/api/UserCategories");
         setCategories(res.data);
       } catch (error) {
         console.error("Lỗi khi lấy danh mục:", error);
@@ -44,7 +42,7 @@ const ProductSearchPage = () => {
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const res = await axios.get("http://localhost:5286/api/UaerAuthors");
+        const res = await axios.get("http://localhost:5286/api/UserAuthors");
         setAuthor(res.data);
       } catch (error) {
         console.error("Lỗi khi lấy tác giả:", error);
@@ -56,9 +54,7 @@ const ProductSearchPage = () => {
   useEffect(() => {
     const fetchPublisher = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:5286/api/UserPublishers"
-        );
+        const res = await axios.get("http://localhost:5286/api/UserPublishers");
         setPublisher(res.data);
       } catch (error) {
         console.error("Lỗi khi lấy nhà xuất bản:", error);

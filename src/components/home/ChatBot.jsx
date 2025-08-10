@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaComments, FaTimes } from "react-icons/fa";
 import "./ChatBot.css";
 
-const ChatBot = ({ setSuggestedProductsFromBot }) => {
+const ChatBot = () => {
   const [showChat, setShowChat] = useState(false);
   const [messages, setMessages] = useState([
     { sender: "bot", text: "Xin chào! Tôi có thể giúp gì cho bạn?" },
@@ -29,18 +29,7 @@ const ChatBot = ({ setSuggestedProductsFromBot }) => {
       const products = data.products || [];
       const suggestions = data.suggestions || [];
       const isProductArray = Array.isArray(products);
-      if (setSuggestedProductsFromBot && Array.isArray(products)) {
-        const normalizedProducts = products.map((product) => ({
-          id: product.Id,
-          title: product.Title,
-          price: product.Price,
-          image: product.Image,
-        }));
-        setSuggestedProductsFromBot((prev) => [...prev, ...normalizedProducts]);
-      }
-      if (setSuggestedProductsFromBot && Array.isArray(suggestions)) {
-        setSuggestedProductsFromBot((prev) => [...prev, ...suggestions]);
-      }
+
       return {
         sender: "bot",
         text: isProductArray ? "Kết quả:" : products, // Trả chuỗi lỗi hoặc thông báo từ backend
@@ -105,7 +94,10 @@ const ChatBot = ({ setSuggestedProductsFromBot }) => {
                       className="suggestion-card"
                       onClick={() => navigate(`/book/${book.id}`, "_blank")}
                     >
-                      <img   src={`http://localhost:5286/${book.image}`} alt={book.Title} />
+                      <img
+                        src={`http://localhost:5286/${book.Image}`}
+                        alt={book.Title}
+                      />
                       <h4>{book.Title}</h4>
                       <p>{parseInt(book.Price).toLocaleString()} VNĐ</p>
                     </div>
@@ -122,9 +114,12 @@ const ChatBot = ({ setSuggestedProductsFromBot }) => {
                     <div
                       key={book.id}
                       className="suggestion-card"
-                       onClick={() => window.open(`/book/${book.id}`, "_blank")}
+                      onClick={() => window.open(`/book/${book.id}`, "_blank")}
                     >
-                      <img    src={`http://localhost:5286/${book.image}`} alt={book.title} />
+                      <img
+                        src={`http://localhost:5286/${book.image}`}
+                        alt={book.title}
+                      />
                       <h4>{book.title}</h4>
                       <p>{parseInt(book.price).toLocaleString()} VNĐ</p>
                     </div>
