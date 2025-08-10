@@ -69,7 +69,7 @@ const RegisterForm = () => {
 
     try {
       const response = await axios.post(
-        "https://localhost:7221/api/UserCustomers",
+        "http://localhost:5286/api/UserCustomers",
         {
           familyName: formData.FamilyName,
           givenName: formData.GivenName,

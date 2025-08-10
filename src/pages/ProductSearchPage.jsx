@@ -31,7 +31,7 @@ const ProductSearchPage = () => {
     const fetchCategories = async () => {
       try {
         const res = await axios.get(
-          "https://localhost:7221/api/UserCategories"
+          "http://localhost:5286/api/UserCategories"
         );
         setCategories(res.data);
       } catch (error) {
@@ -44,7 +44,7 @@ const ProductSearchPage = () => {
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const res = await axios.get("https://localhost:7221/api/UaerAuthors");
+        const res = await axios.get("http://localhost:5286/api/UaerAuthors");
         setAuthor(res.data);
       } catch (error) {
         console.error("Lỗi khi lấy tác giả:", error);
@@ -57,7 +57,7 @@ const ProductSearchPage = () => {
     const fetchPublisher = async () => {
       try {
         const res = await axios.get(
-          "https://localhost:7221/api/UserPublishers"
+          "http://localhost:5286/api/UserPublishers"
         );
         setPublisher(res.data);
       } catch (error) {
@@ -71,7 +71,7 @@ const ProductSearchPage = () => {
     const fetchBooks = async () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
       try {
-        const res = await axios.get("https://localhost:7221/api/UserBooks");
+        const res = await axios.get("http://localhost:5286/api/UserBooks");
         const allBooks = res.data;
         console.log("📦 Dữ liệu trả về:", allBooks);
 
@@ -254,7 +254,7 @@ const ProductSearchPage = () => {
                       style={{ textDecoration: "none", color: "inherit" }}
                     >
                       <img
-                        src={`https://localhost:7221/${book.image}`}
+                        src={`http://localhost:5286/${book.image}`}
                         alt={book.title}
                         className={styles["listBook"]}
                       />

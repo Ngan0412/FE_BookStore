@@ -18,7 +18,7 @@ const BookList = () => {
   const [showAll, setShowAll] = useState(false);
   useEffect(() => {
     axios
-      .get("https://localhost:7221/api/UserBooks")
+      .get("http://localhost:5286/api/UserBooks")
       .then((res) => {
         setBooks(res.data);
         setVisibleBooks(res.data.slice(0, 10));
@@ -57,7 +57,7 @@ const BookList = () => {
               className={styles["main-listBook__item__child"]}
             >
               <img
-                src={`https://localhost:7221/${book.image}`}
+                src={`http://localhost:5286/${book.image}`}
                 alt={book.title}
                 className={styles["listBook"]}
               />

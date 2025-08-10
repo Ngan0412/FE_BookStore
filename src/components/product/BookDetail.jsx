@@ -18,7 +18,7 @@ const BookDetailPage = () => {
 
     // Lấy chi tiết sách
     axios
-      .get(`https://localhost:7221/api/UserBooks/${bookId}`)
+      .get(`http://localhost:5286/api/UserBooks/${bookId}`)
       .then((res) => {
         setBook(res.data);
         setLoading(false);
@@ -30,7 +30,7 @@ const BookDetailPage = () => {
 
     // Lấy tất cả sách để lọc sách liên quan
     axios
-      .get(`https://localhost:7221/api/UserBooks/GetRelated?bookId=${bookId}`)
+      .get(`http://localhost:5286/api/UserBooks/GetRelated?bookId=${bookId}`)
       .then((res) => {
         setAllBooks(res.data);
       })
@@ -64,7 +64,7 @@ const BookDetailPage = () => {
       try {
         const Customer = JSON.parse(localStorage.getItem("user")) || {};
         const response = await fetch(
-          `https://localhost:7221/api/UserCustomers/${Customer.id}/get-promotion`,
+          `http://localhost:5286/api/UserCustomers/${Customer.id}/get-promotion`,
           {
             method: "PUT",
             headers: {
@@ -106,7 +106,7 @@ const BookDetailPage = () => {
           {/* LEFT */}
           <div className="main-detail__item__left">
             <img
-              src={`https://localhost:7221/${book.image}`}
+              src={`http://localhost:5286/${book.image}`}
               alt={book.title}
               className="book"
             />
