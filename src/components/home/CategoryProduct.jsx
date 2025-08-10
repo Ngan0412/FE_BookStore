@@ -39,10 +39,10 @@ const CategorySection = () => {
     axios
       .get("https://localhost:7221/api/UserCategories")
       .then((res) => {
+        console.log(res);
         setCategories(res.data);
         setLoading(false);
         if (res.data.length > 0) {
-          // Mặc định chọn danh mục đầu tiên
           handleCategoryClick(res.data[2]);
         }
       })

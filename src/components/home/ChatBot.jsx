@@ -25,12 +25,9 @@ const ChatBot = ({ setSuggestedProductsFromBot }) => {
       });
 
       if (!response.ok) throw new Error("Lỗi server!");
-
       const data = await response.json();
-
       const products = data.products || [];
       const suggestions = data.suggestions || [];
-
       const isProductArray = Array.isArray(products);
       if (setSuggestedProductsFromBot && Array.isArray(products)) {
         const normalizedProducts = products.map((product) => ({
@@ -39,10 +36,8 @@ const ChatBot = ({ setSuggestedProductsFromBot }) => {
           price: product.Price,
           image: product.Image,
         }));
-
         setSuggestedProductsFromBot((prev) => [...prev, ...normalizedProducts]);
       }
-
       if (setSuggestedProductsFromBot && Array.isArray(suggestions)) {
         setSuggestedProductsFromBot((prev) => [...prev, ...suggestions]);
       }

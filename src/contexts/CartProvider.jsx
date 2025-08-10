@@ -6,7 +6,7 @@ export const CartProvider = ({ children }) => {
     const stored = localStorage.getItem("cart");
     return stored ? JSON.parse(stored) : [];
   });
-
+  //  lưu giỏ hàng vào localStorage để mỗi lần load lại trang thì không bị mất dữ liệu
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
