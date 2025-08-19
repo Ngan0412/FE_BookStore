@@ -131,7 +131,7 @@ const OrderPage = () => {
                     Ngày đặt:{" "}
                     {new Date(order.createdTime).toLocaleDateString("vi-VN")}
                   </p>
-                  <p>Địa chỉ: {order.customerAddress}</p>
+                  <p style={{ margin: "0 20px" }}>Địa chỉ: {order.customerAddress}</p>
                 </div>
                 <div className={styles["order-items"]}>
                   {order.bookList.map((book) => (
