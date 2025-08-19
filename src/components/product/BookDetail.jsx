@@ -128,9 +128,9 @@ const BookDetailPage = () => {
               <button className="btn btn__muangay" onClick={handleBuyNow}>
                 Mua Ngay
               </button>
-              <button className="btn btn__muangay" onClick={handleSubscribe}>
+              {/* <button className="btn btn__muangay" onClick={handleSubscribe}>
                 Đăng ký nhận khuyến mãi
-              </button>
+              </button> */}
             </div>
             <div className="detail__title">
               <p className="title">

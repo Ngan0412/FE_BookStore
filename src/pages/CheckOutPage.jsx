@@ -177,7 +177,7 @@ const CheckoutPage = () => {
             />
             Thanh toán khi nhận hàng
           </label>
-          <label>
+          {/* <label>
             <input
               type="radio"
               name="payment"
@@ -186,7 +186,7 @@ const CheckoutPage = () => {
               onChange={(e) => setPaymentMethod(e.target.value)}
             />
             Ví điện tử Momo
-          </label>
+          </label> */}
         </div>
       </section>
 

@@ -14,7 +14,7 @@ body {
   /* flex-direction: column; */
   max-width: 1200px;
   min-height: 530px;
-  margin: 0 auto;
+  margin: 50px auto;
   background-color: #fff;
   border-radius: 8px;
   overflow: hidden;
